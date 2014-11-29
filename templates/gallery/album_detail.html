@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'gallery/gallery.css' %}">
+{% endblock %}
+
+
+{% block content %}
+
+<h2>{{ album.title }}</h2>
+
+{% for image in album.images.all %}
+
+    <a href="{% url 'gallery:album_image_detail' album.pk image.pk %}">
+
+        {% include "gallery/thumbnail.html" %}
+
+    </a>
+
+{% endfor %}
+
+{% endblock %}

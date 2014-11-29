@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'gallery/gallery.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<h2>{{ album.title }}</h2>
+<h2>{{ image.title }}</h2>
+<img src="{{ image.data_preview.url }}" title="{{ image.title }}" style="width: 100%">
+{% if album_images %}
+    <div id="album_preview">
+    {% for image in album_images %}
+        <a href="{% url 'gallery:album_image_detail' apk image.pk %}" style="display: inline-block;">
+            {% include "gallery/thumbnail.html" %}
+       </a>
+    {% endfor %}
+    </div>
+{% endif %}
+
+{% endblock %}

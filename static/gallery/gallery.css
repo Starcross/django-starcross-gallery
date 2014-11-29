@@ -1,0 +1,26 @@
+.thumbnail {
+    float: left;
+}
+.thumbnail .overlay {
+    width: 100%; height: 100%;
+    padding: 8px 0 8px 0;
+    background: rgba(0,0,0,0);
+    transition: all .25s ease-in-out;
+}
+.thumbnail:hover .overlay{
+    background: rgba(0,0,0,0.5);
+}
+.thumbnail .overlay span {
+    margin-left: 16px;
+    color: #eee;
+    font-size: 14px;
+    opacity: 0;
+}
+.thumbnail:hover .overlay span {
+    opacity: 1;
+}
+#album_preview {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
