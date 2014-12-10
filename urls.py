@@ -6,7 +6,7 @@ urlpatterns = patterns('',
     # ex: /gallery/
     #url(r'^$', ImageList.as_view()),
     # ex: /gallery/5/
-    url(r'^$', AlbumList.as_view()),
+    url(r'^$', AlbumList.as_view(), name='album_list'),
     url(r'^image/$', ImageList.as_view(), name='image_list'),
     url(r'^image/(?P<pk>\d+)/$', ImageView.as_view(), name='image_detail'),
     url(r'^album/(?P<pk>\d+)/$', AlbumView.as_view(), name='album_detail'),

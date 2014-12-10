@@ -1,7 +1,6 @@
-from django.shortcuts import render
 from django.views.generic import DetailView, ListView
 
-from gallery.models import Image, Album, Tag
+from gallery.models import Image, Album
 # Create your views here.
 
 class ImageView(DetailView):
@@ -28,7 +27,7 @@ class AlbumList(ListView):
     template_name = 'gallery/album_list.html'
 
     def get_queryset(self):
-        # Return a list of albums containing a highlights even if none is selected
+        # Return a list of albums containing a highlight even if none is selected
         album_list=[]
         for album in super(AlbumList, self).get_queryset():
             # if there is no highlight but there are images in the album, use the first
@@ -36,5 +35,7 @@ class AlbumList(ListView):
                 first_image = album.images.earliest('id')
                 album.highlight = first_image
             album_list.append(album)
+            if album.highlight:
+                album.highlight.title = album.title # override highlight title
         return album_list
-    
+

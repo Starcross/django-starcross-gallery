@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block header %}
-<link rel="stylesheet" type="text/css" href="{% static 'gallery/gallery.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'gallery/gallery.css' %}">
 {% endblock %}
 
 
@@ -13,11 +13,11 @@
 {% for image in object_list %}
     <a href="{% url 'gallery:album_detail' image.pk %}">
 
-        {% with image.highlight as image %}
-
-            {% include "gallery/thumbnail.html" %}
-
-        {% endwith %}
+        {% if image.highlight %}
+            {% with image.highlight as image %}
+                {% include "gallery/thumbnail.html" %}
+            {% endwith %}
+        {% endif %}
 
     </a>
 {% endfor %}
