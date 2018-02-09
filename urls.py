@@ -1,15 +1,15 @@
-from django.conf.urls import patterns, url
+from django.urls import path
 
 from gallery.views import ImageView, ImageList, AlbumView, AlbumList
 
-urlpatterns = patterns('',
+app_name = 'gallery'
+urlpatterns = [
     # ex: /gallery/
-    #url(r'^$', ImageList.as_view()),
+    #path('', ImageList.as_view()),
     # ex: /gallery/5/
-    url(r'^$', AlbumList.as_view(), name='album_list'),
-    url(r'^image/$', ImageList.as_view(), name='image_list'),
-    url(r'^image/(?P<pk>\d+)/$', ImageView.as_view(), name='image_detail'),
-    url(r'^album/(?P<pk>\d+)/$', AlbumView.as_view(), name='album_detail'),
-    url(r'^album/(?P<apk>\d+)/image/(?P<pk>\d+)/$', ImageView.as_view(), name='album_image_detail'),
-
-)
+    path('', AlbumList.as_view(), name='album_list'),
+    path('image/', ImageList.as_view(), name='image_list'),
+    path('image/<int:pk>/', ImageView.as_view(), name='image_detail'),
+    path('album/<int:pk>/', AlbumView.as_view(), name='album_detail'),
+    path('album/<int:apk>/image/<int:pk>/', ImageView.as_view(), name='album_image_detail')
+]
