@@ -1,14 +1,17 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
+{% block title %}
+    {{ album.title }} - {{ image.title }}
+{% endblock %}
+
 {% block header %}
     <link rel="stylesheet" type="text/css" href="{% static 'gallery/gallery.css' %}">
 {% endblock %}
 
 {% block content %}
 
-<h2>{{ album.title }}</h2>
-<h2>{{ image.title }}</h2>
+<h2>{{ album.title }} - {{ image.title }}</h2>
 <img src="{{ image.data_preview.url }}" title="{{ image.title }}" style="width: 100%">
 {% if album_images %}
     <div id="album_preview">

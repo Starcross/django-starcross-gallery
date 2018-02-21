@@ -10,10 +10,10 @@ class ImageView(DetailView):
         context = super(ImageView, self).get_context_data(**kwargs)
         context['album_images'] = []
         context['apk'] = self.kwargs.get('apk')
+        context['album'] = Album.objects.get(pk=context['apk'])
         # If there is an album in the context, look up the images in it
-        if context['apk']:
-            for album in Album.objects.filter(pk=context['apk']):
-                context['album_images'] = album.images.all
+        if context['album']:
+            context['album_images'] = context['album'].images.all
         return context
 
 class ImageList(ListView):
