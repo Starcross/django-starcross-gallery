@@ -7,6 +7,11 @@
 
 {% block header %}
     <link rel="stylesheet" type="text/css" href="{% static 'gallery/gallery.css' %}">
+    <style>
+        .thumbnail {
+            height: {{ thumbnail_size }}px;
+        }
+    </style>
 {% endblock %}
 
 
@@ -16,11 +21,15 @@
 
 {% for image in album.images.all %}
 
-    <a href="{% url 'gallery:album_image_detail' album.pk image.pk %}">
+    <div id="thumbnail_container">
 
-        {% include "gallery/thumbnail.html" %}
+        <a href="{% url 'gallery:album_image_detail' album.pk image.pk %}">
 
-    </a>
+            {% include "gallery/thumbnail.html" %}
+
+        </a>
+
+    </div>
 
 {% endfor %}
 

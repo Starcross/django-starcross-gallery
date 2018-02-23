@@ -16,8 +16,7 @@ class Image(models.Model):
     title = models.CharField(max_length=250)
     data = models.ImageField(upload_to='images')
     data_thumbnail = ImageSpecField(source='data',
-                                    processors=[ResizeToFit(width=settings.GALLERY_THUMBNAIL_SIZE,
-                                                            height=settings.GALLERY_THUMBNAIL_SIZE)],
+                                    processors=[ResizeToFit(height=settings.GALLERY_THUMBNAIL_SIZE * 2)],
                                     format='JPEG',
                                     options={'quality': settings.GALLERY_RESIZE_QUALITY})
     data_preview = ImageSpecField(source='data',

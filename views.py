@@ -1,7 +1,8 @@
 from django.views.generic import DetailView, ListView
 
 from gallery.models import Image, Album
-# Create your views here.
+from gallery import settings
+
 
 class ImageView(DetailView):
     model = Image
@@ -16,11 +17,19 @@ class ImageView(DetailView):
             context['album_images'] = context['album'].images.all
         return context
 
+
 class ImageList(ListView):
     model = Image
 
+
 class AlbumView(DetailView):
     model = Album
+
+    def get_context_data(self, **kwargs):
+        context = super(AlbumView, self).get_context_data(**kwargs)
+        context['thumbnail_size'] = settings.GALLERY_THUMBNAIL_SIZE
+        return context
+
 
 class AlbumList(ListView):
     model = Album

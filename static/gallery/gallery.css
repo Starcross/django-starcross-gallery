@@ -1,5 +1,9 @@
+
 .thumbnail {
     float: left;
+}
+.thumbnail .break {
+    clear: left;
 }
 .thumbnail .overlay {
     width: 100%; height: 100%;
