@@ -1,10 +1,10 @@
-<div id="imagethumbnail_{{ forloop.counter0 }}"
+<img id="imagethumbnail_{{ forloop.counter0 }}"
      class="thumbnail"
-     style="background-image: url('{{ image.data_thumbnail.url }}');
-            width: {% widthratio image.data_thumbnail.width 2 1 %}px;">
+     alt="{{ image.title }}"
+     src="{{ image.data_thumbnail.url }}"
+     style="width: {% widthratio image.data_thumbnail.width 2 1 %}px;"/>
 
-    <div class="overlay">
-        <span> {{ image.title }} </span>
-    </div>
+<!--<div class="overlay">
+    <span> {{ image.title }} </span>
+</div>-->
 
-</div>
