@@ -16,11 +16,13 @@
 {% if album_images %}
     <div id="album_preview">
     {% for image in album_images %}
-        <a href="{% url 'gallery:album_image_detail' apk image.pk %}" style="display: inline-block;">
+        <a href="{% url 'gallery:album_image_detail' apk image.pk image.slug %}" style="display: inline-block;">
             {% include "gallery/thumbnail.html" %}
        </a>
     {% endfor %}
     </div>
 {% endif %}
+
+{{ image.exif }}
 
 {% endblock %}

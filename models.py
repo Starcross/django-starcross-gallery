@@ -1,9 +1,10 @@
 from django.db import models
+from django.template.defaultfilters import slugify
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit
-from gallery import settings
 from PIL import Image as pImage
 from PIL.ExifTags import TAGS
+from gallery import settings
 
 
 # Create your models here.
@@ -31,6 +32,10 @@ class Image(models.Model):
     tag = models.ManyToManyField(Tag, blank=True)
 
     @property
+    def slug(self):
+        return slugify(self.title)
+
+    @property
     def exif(self):
         exif_dict = {}
         img = pImage.open(self.data)
@@ -52,6 +57,10 @@ class Album(models.Model):
                                      null=True, blank=True,
                                      on_delete=models.PROTECT
                                      )
+
+    @property
+    def slug(self):
+        return slugify(self.title)
 
     def __str__(self):
         return self.title

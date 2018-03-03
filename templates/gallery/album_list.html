@@ -14,11 +14,11 @@
 
 <h2>Gallery</h2>
 
-{% for image in object_list %}
-    <a href="{% url 'gallery:album_detail' image.pk %}">
+{% for album in object_list %}
+    <a href="{% url 'gallery:album_detail' album.pk album.slug  %}">
 
-        {% if image.highlight %}
-            {% with image.highlight as image %}
+        {% if album.highlight %}
+            {% with album.highlight as image %}
                 {% include "gallery/thumbnail.html" %}
             {% endwith %}
         {% endif %}

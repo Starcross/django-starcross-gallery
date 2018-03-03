@@ -24,7 +24,7 @@
 
     <div id="thumbnail_container">
 
-        <a href="{% url 'gallery:album_image_detail' album.pk image.pk %}">
+        <a href="{% url 'gallery:album_image_detail' album.pk image.pk image.slug %}">
 
             {% include "gallery/thumbnail.html" %}
 
