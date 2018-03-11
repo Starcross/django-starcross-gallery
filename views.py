@@ -27,7 +27,6 @@ class AlbumView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(AlbumView, self).get_context_data(**kwargs)
-        context['thumbnail_size'] = settings.GALLERY_THUMBNAIL_SIZE
         return context
 
 

@@ -1,0 +1,17 @@
+
+<div class="thumbnail">
+
+        <img id="image_{{ forloop.counter0 }}"
+             class="image"
+             alt="{{ image.title }}"
+             src="{{ image.data_thumbnail.url }}"
+             style="width: {% widthratio image.data_thumbnail.width 2 1 %}px;"/>
+
+        <div class="overlay">
+
+            <div class="label"> {{ image.title }} </div>
+
+        </div>
+
+
+</div>

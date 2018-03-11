@@ -17,7 +17,7 @@
     <div id="album_preview">
     {% for image in album_images %}
         <a href="{% url 'gallery:album_image_detail' apk image.pk image.slug %}" style="display: inline-block;">
-            {% include "gallery/thumbnail.html" %}
+            {% include "gallery/partials/thumbnail.html" %}
        </a>
     {% endfor %}
     </div>

@@ -1,20 +1,27 @@
-/** Justify image grid based on thumbnail class */
+/** Justify image grid based on thumbnail class
 
-var hdpi_factor = 2;
-var image_margin = 8.0;
+    These global vars should be present
+
+    hdpi_factor e.g. 2
+    image_margin e.g 6.0
+
+*/
+
+
 
 function justify_images() {
 /** Fix the width each image in a container to fully justify each row */
 
-    var container = document.getElementById('thumbnail_container')
+    var container = document.getElementById('image_container')
     // Get exact width of container
     var container_width = container.getBoundingClientRect()['width'];
 
     // Find the images in the thumbnail container
-    var images = document.querySelectorAll('.thumbnail');
+    var images = document.querySelectorAll('.image');
     if (images == []) {
         return;
     }
+    // Assume all images have the same height from the ImageSpecField resize
     var target_height = images[0].naturalHeight / hdpi_factor;
 
     // Keep an array of images for the current row and it's width

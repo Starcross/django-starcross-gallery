@@ -9,9 +9,9 @@
 {% block content %}
 
 {% for image in image_list %}
-    <a href="{% url 'gallery:image_detail' image.pk %}">
+    <a href="{% url 'gallery:image_detail' image.pk image.slug %}">
 
-        {% include "gallery/thumbnail.html" %}
+        {% include "gallery/partials/thumbnail.html" %}
 
     </a>
 {% endfor %}

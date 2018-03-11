@@ -7,31 +7,28 @@
 
 {% block header %}
     <link rel="stylesheet" type="text/css" href="{% static 'gallery/gallery.css' %}">
-    <script type="text/javascript" src="{% static 'gallery/justify_images.js' %}"></script>
-    <style>
-        .thumbnail {
-            height: {{ thumbnail_size }}px;
-        }
-    </style>
+    {% include "gallery/partials/justify_images.html" %}
+
 {% endblock %}
+
 
 
 {% block content %}
 
 <h2>{{ album.title }}</h2>
 
-{% for image in album.images.all %}
+<div id="image_container">
 
-    <div id="thumbnail_container">
+    {% for image in album.images.all %}
 
         <a href="{% url 'gallery:album_image_detail' album.pk image.pk image.slug %}">
 
-            {% include "gallery/thumbnail.html" %}
+            {% include "gallery/partials/thumbnail.html" %}
 
         </a>
 
-    </div>
+    {% endfor %}
 
-{% endfor %}
+</div>
 
 {% endblock %}
