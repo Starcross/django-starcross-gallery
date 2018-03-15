@@ -3,17 +3,23 @@
 
 {% block header %}
     <link rel="stylesheet" type="text/css" href="{% static 'gallery/gallery.css' %}">
-
+    {% include "gallery/partials/justify_images.html" %}
 {% endblock %}
 
 {% block content %}
 
-{% for image in image_list %}
-    <a href="{% url 'gallery:image_detail' image.pk image.slug %}">
+<div id="image_container">
 
-        {% include "gallery/partials/thumbnail.html" %}
+    {% for image in image_list %}
 
-    </a>
-{% endfor %}
+        <a href="{% url 'gallery:image_detail' image.pk image.slug %}">
+
+            {% include "gallery/partials/thumbnail.html" %}
+
+        </a>
+
+    {% endfor %}
+
+</div>
 
 {% endblock %}

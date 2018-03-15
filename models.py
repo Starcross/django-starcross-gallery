@@ -1,5 +1,6 @@
 from django.db import models
 from django.template.defaultfilters import slugify
+from django.urls import reverse
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit
 from PIL import Image as pImage
@@ -45,6 +46,9 @@ class Image(models.Model):
             exif_dict[decoded] = value
         return exif_dict
 
+    def get_absolute_url(self):
+        return reverse('gallery:image_detail', kwargs={'pk': self.pk, 'slug': self.slug})
+
     def __str__(self):
         return self.title
 
@@ -61,6 +65,9 @@ class Album(models.Model):
     @property
     def slug(self):
         return slugify(self.title)
+
+    def get_absolute_url(self):
+        return reverse('gallery:album_detail', kwargs={'pk': self.pk, 'slug': self.slug})
 
     def __str__(self):
         return self.title
