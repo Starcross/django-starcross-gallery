@@ -11,9 +11,9 @@ class ImageView(DetailView):
         context = super(ImageView, self).get_context_data(**kwargs)
         context['album_images'] = []
         context['apk'] = self.kwargs.get('apk')
-        context['album'] = Album.objects.get(pk=context['apk'])
         # If there is an album in the context, look up the images in it
-        if context['album']:
+        if context['apk']:
+            context['album'] = Album.objects.get(pk=context['apk'])
             context['album_images'] = context['album'].images.all
         return context
 
@@ -36,7 +36,7 @@ class AlbumList(ListView):
 
     def get_queryset(self):
         # Return a list of albums containing a highlight even if none is selected
-        album_list=[]
+        album_list = []
         for album in super(AlbumList, self).get_queryset():
             # if there is no highlight but there are images in the album, use the first
             if not album.highlight and album.images.count():
@@ -44,6 +44,6 @@ class AlbumList(ListView):
                 album.highlight = first_image
             album_list.append(album)
             if album.highlight:
-                album.highlight.title = album.title # override highlight title
+                album.highlight.title = album.title  # override highlight title
         return album_list
 

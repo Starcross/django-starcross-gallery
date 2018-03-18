@@ -11,7 +11,8 @@
 
 {% block content %}
 
-<h2>{{ album.title }} - {{ image.title }}</h2>
+<h2>{{ image.title }}</h2>
+<h3>{{ album.title }}</h3>
 <img src="{{ image.data_preview.url }}" title="{{ image.title }}" style="width: 100%">
 {% if album_images %}
     <div id="album_preview">
@@ -23,6 +24,6 @@
     </div>
 {% endif %}
 
-{{ image.exif }}
+<!--{{ image.exif }}-->
 
 {% endblock %}

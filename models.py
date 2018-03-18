@@ -6,7 +6,7 @@ from imagekit.processors import ResizeToFit
 from PIL import Image as pImage
 from PIL.ExifTags import TAGS
 from gallery import settings
-
+from pathlib import Path
 
 # Create your models here.
 class Tag(models.Model):
@@ -18,7 +18,6 @@ class Tag(models.Model):
 
 class Image(models.Model):
 
-    title = models.CharField(max_length=250)
     data = models.ImageField(upload_to='images')
     data_thumbnail = ImageSpecField(source='data',
                                     processors=[ResizeToFit(height=settings.GALLERY_THUMBNAIL_SIZE * 2)],
@@ -45,6 +44,24 @@ class Image(models.Model):
             decoded = TAGS.get(tag, tag)
             exif_dict[decoded] = value
         return exif_dict
+
+    @property
+    def title(self):
+        if hasattr(self, '_title'):
+            return self._title
+        """ Derive a title from the original filename """
+        # remove extension
+        filename = Path(self.data.name).with_suffix('').name
+        # convert spacing characters to whitespaces
+        name = filename.translate(str.maketrans('_', ' '))
+        # return with first letter caps
+        return name.title()
+
+    # Temporary override for album highlights
+    @title.setter
+    def title(self, name):
+        self._title = name
+
 
     def get_absolute_url(self):
         return reverse('gallery:image_detail', kwargs={'pk': self.pk, 'slug': self.slug})

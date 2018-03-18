@@ -1,5 +1,8 @@
 from django.conf import settings
 
+IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY = getattr(settings, 'IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY',
+                                              'imagekit.cachefiles.strategies.Optimistic')
+
 # Image resize defaults
 
 # Target height for thumbnail display

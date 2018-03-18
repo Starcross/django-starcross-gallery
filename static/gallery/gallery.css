@@ -1,4 +1,8 @@
 
+#image_container{
+    display: inline-block;
+}
+
 .thumbnail {
     float: left;
     margin-bottom: 2px;
