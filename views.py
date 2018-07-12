@@ -1,5 +1,6 @@
 from django.views.generic import DetailView, ListView, FormView
 from django import forms
+from django.urls import reverse
 from gallery.models import Image, Album
 
 
@@ -33,6 +34,9 @@ class ImageCreate(FormView):
         images = [Image(data=i) for i in form.files.getlist('data')]
         Image.objects.bulk_create(images)
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('gallery:image_list')
 
 
 class AlbumView(DetailView):

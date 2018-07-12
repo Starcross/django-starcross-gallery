@@ -1,7 +1,7 @@
 from django.conf import settings
 
-IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY = getattr(settings, 'IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY',
-                                              'imagekit.cachefiles.strategies.Optimistic')
+# Override default just in time setting
+IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY = 'imagekit.cachefiles.strategies.Optimistic'
 
 # Image resize defaults
 

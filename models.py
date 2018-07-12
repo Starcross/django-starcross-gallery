@@ -8,6 +8,7 @@ from PIL.ExifTags import TAGS
 from gallery import settings
 from pathlib import Path
 
+
 # Create your models here.
 class Tag(models.Model):
     name = models.CharField(max_length=250)
@@ -38,6 +39,7 @@ class Image(models.Model):
     @property
     def exif(self):
         exif_dict = {}
+        self.data.open()
         img = pImage.open(self.data)
         info = img._getexif()
         for tag, value in info.items():
