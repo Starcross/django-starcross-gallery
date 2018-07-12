@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block header %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'gallery/js/vendor/jquery.ui.widget.js' %}"></script>
+    <script type="text/javascript" src="{% static 'gallery/js/jquery.iframe-transport.js' %}"></script>
+    <script type="text/javascript" src="{% static 'gallery/js/jquery.fileupload.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+<!--<script>
+$(function () {
+    $('#data').fileupload({
+        dataType: 'json',
+        done: function (e, data) {
+            $.each(data.result.files, function (index, file) {
+                $('<p/>').text(file.name).appendTo(document.body);
+            });
+        },
+        progressall: function (e, data) {
+        var progress = parseInt(data.loaded / data.total * 100, 10);
+        $('#progress .bar').css(
+            'width',
+            progress + '%'
+        );
+    }
+    });
+});
+</script>-->
+
+{{ form.errors }}
+
+<form method="post" action="{% url 'gallery:image_upload' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <input id="data" type="file" name="data" data-url="{% url 'gallery:image_upload' %}" multiple>
+
+    <div id="progress">
+        <div class="progressbar"></div>
+    </div>
+
+    <input type="submit" value="Save"/>
+
+</form>
+
+{% endblock %}

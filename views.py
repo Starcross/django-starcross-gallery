@@ -1,12 +1,11 @@
-from django.views.generic import DetailView, ListView
-
+from django.views.generic import DetailView, ListView, FormView
+from django import forms
 from gallery.models import Image, Album
-from gallery import settings
 
 
 class ImageView(DetailView):
     model = Image
-    
+
     def get_context_data(self, **kwargs):
         context = super(ImageView, self).get_context_data(**kwargs)
         context['album_images'] = []
@@ -20,6 +19,20 @@ class ImageView(DetailView):
 
 class ImageList(ListView):
     model = Image
+
+
+class ImageCreateForm(forms.Form):
+    data = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+
+
+class ImageCreate(FormView):
+    form_class = ImageCreateForm
+    template_name = 'gallery/image_upload.html'
+
+    def form_valid(self, form):
+        images = [Image(data=i) for i in form.files.getlist('data')]
+        Image.objects.bulk_create(images)
+        return super().form_valid(form)
 
 
 class AlbumView(DetailView):
@@ -46,4 +59,3 @@ class AlbumList(ListView):
             if album.highlight:
                 album.highlight.title = album.title  # override highlight title
         return album_list
-
