@@ -3,10 +3,13 @@
 
 {% block header %}
     <link rel="stylesheet" type="text/css" href="{% static 'gallery/gallery.css' %}">
+    <script type="text/javascript" src="{% static 'gallery/image_upload.js' %}"></script>
     {% include "gallery/partials/justify_images.html" %}
 {% endblock %}
 
 {% block content %}
+
+{% include "gallery/partials/image_upload_form.html" %}
 
 <div id="image_container">
 
