@@ -1,13 +1,36 @@
+/** Django Starcross gallery css */
 
+/* Main image display block */
 #image_container{
     display: inline-block;
+    position: relative;
+}
+/* For upload - pulsing drag container on image drag */
+#image_container:before {
+    animation: pulse 1s linear alternate infinite;
+    border: 1px solid;
+    position: absolute;
+    content: '';
+    pointer-events: none;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+}
+@keyframes pulse {
+    from { background: rgba(0,0,0, 0.5); }
+    to { background: rgba(32,32,32, 0.5); }
 }
 
+/* Image thumbnail  */
 .thumbnail {
     float: left;
     margin-bottom: 2px;
     position: relative;
 }
+
+/* Image thumbnail overlay to add background to title */
 .overlay {
     position: absolute;
     width: 100%; height: 100%;
@@ -17,7 +40,7 @@
 
 }
 .overlay:hover {
-    background: linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(0,0,0,0.5));
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(0,0,0,0.6));
     opacity: 1;
 }
 .overlay .label {
@@ -31,6 +54,7 @@
 .overlay:hover .label {
     opacity: 1;
 }
+
 
 #album_preview {
     overflow-x: scroll;
