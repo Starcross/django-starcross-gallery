@@ -14,11 +14,12 @@ document.addEventListener('dragover', function(event) {
 
 document.addEventListener('dragenter', function(event) {
     var drop_container = document.getElementById('image_container');
-    drop_container.style.border = '10px solid';
+    drop_container.classList.add('highlight');
     event.preventDefault();
 });
 
 document.addEventListener('dragexit', function() {
     var drop_container = document.getElementById('image_container');
-    drop_container.style.border = '0';
+    drop_container.classList.remove('highlight');
+
 });

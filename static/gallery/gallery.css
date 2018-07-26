@@ -6,8 +6,8 @@
     position: relative;
 }
 /* For upload - pulsing drag container on image drag */
-#image_container:before {
-    animation: pulse 1s linear alternate infinite;
+#image_container.highlight:before {
+    animation: pulse 0.5s linear alternate infinite;
     border: 1px solid;
     position: absolute;
     content: '';
@@ -19,8 +19,8 @@
     z-index: 1;
 }
 @keyframes pulse {
-    from { background: rgba(0,0,0, 0.5); }
-    to { background: rgba(32,32,32, 0.5); }
+    from { background: rgba(0,0,0, 0.3); }
+    to { background: rgba(32,32,32, 0.3); }
 }
 
 /* Image thumbnail  */
