@@ -22,6 +22,10 @@
     from { background: rgba(0,0,0, 0.3); }
     to { background: rgba(32,32,32, 0.3); }
 }
+/* Hide image upload form as the drag container is used instead */
+#image_upload_form{
+    display: none;
+}
 
 /* Image thumbnail  */
 .thumbnail {

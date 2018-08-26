@@ -1,0 +1,16 @@
+{{ form.errors }}
+
+<form method="post" id="image_upload_form"
+      action="{% url 'gallery:image_upload' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <input id="data" type="file" name="data" data-url="{% url 'gallery:image_upload' %}" multiple>
+
+    <!--
+    <div id="progress">
+        <div class="progressbar"></div>
+    </div>
+
+    <input type="submit" value="Save"/>-->
+
+</form>

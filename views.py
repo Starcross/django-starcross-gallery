@@ -1,7 +1,7 @@
 from django.views.generic import DetailView, ListView, FormView
-from django import forms
 from django.urls import reverse
 from gallery.models import Image, Album
+from gallery.forms import ImageCreateForm
 
 
 class ImageView(DetailView):
@@ -20,10 +20,6 @@ class ImageView(DetailView):
 
 class ImageList(ListView):
     model = Image
-
-
-class ImageCreateForm(forms.Form):
-    data = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
 
 
 class ImageCreate(FormView):
