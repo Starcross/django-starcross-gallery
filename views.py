@@ -1,5 +1,7 @@
 from django.views.generic import DetailView, ListView, FormView
 from django.urls import reverse
+from django.contrib import messages
+from django.shortcuts import redirect
 from gallery.models import Image, Album
 from gallery.forms import ImageCreateForm
 
@@ -23,16 +25,35 @@ class ImageList(ListView):
 
 
 class ImageCreate(FormView):
+    """ Embedded drag and drop image upload"""
     form_class = ImageCreateForm
     template_name = 'gallery/image_upload.html'
 
     def form_valid(self, form):
-        images = [Image(data=i) for i in form.files.getlist('data')]
-        Image.objects.bulk_create(images)
+        """ Bulk create images based on form data """
+        image_data = form.files.getlist('data')
+        for data in image_data:
+            image = Image.objects.create(data=data)
+            image.image_albums.set(form.data['apk'])
+        messages.success(self.request, "Images added successfully")
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('gallery:image_list')
+        next_url = self.request.POST.get('next')
+        return_url = reverse('gallery:image_list')
+        if next_url:
+            return_url = next_url
+        return return_url
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        next_url = self.request.POST.get('next')
+        if next_url:
+            # TODO: Preserve error message
+            return redirect(next_url)
+        else:
+            return response
+
 
 
 class AlbumView(DetailView):

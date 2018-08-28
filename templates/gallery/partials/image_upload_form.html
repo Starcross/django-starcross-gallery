@@ -1,4 +1,17 @@
-{{ form.errors }}
+
+{% if form.non_field_errors %}
+    <div class="alert alert-warning">
+        {{ form.non_field_errors }}
+    </div>
+{% endif %}
+
+{% if messages %}
+    <div class="alert alert-info">
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
 
 <form method="post" id="image_upload_form"
       action="{% url 'gallery:image_upload' %}" enctype="multipart/form-data">
@@ -9,8 +22,9 @@
     <!--
     <div id="progress">
         <div class="progressbar"></div>
-    </div>
+    </div>-->
 
-    <input type="submit" value="Save"/>-->
+   <input type="hidden" name="apk" value="{{ album.pk }}"/>
+   <input type="hidden" name="next" value="{{ request.path }}"/>
 
 </form>

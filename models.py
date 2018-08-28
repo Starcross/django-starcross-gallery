@@ -74,7 +74,7 @@ class Image(models.Model):
 
 class Album(models.Model):
     title = models.CharField(max_length=250)
-    images = models.ManyToManyField(Image, blank=True)
+    images = models.ManyToManyField(Image, blank=True, related_name='image_albums')
     highlight = models.OneToOneField(Image,
                                      related_name='album_highlight',
                                      null=True, blank=True,
