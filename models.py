@@ -41,10 +41,11 @@ class Image(models.Model):
         exif_dict = {}
         self.data.open()
         img = pImage.open(self.data)
-        info = img._getexif()
-        for tag, value in info.items():
-            decoded = TAGS.get(tag, tag)
-            exif_dict[decoded] = value
+        if hasattr(img, '_getexif'):
+            info = img._getexif()
+            for tag, value in info.items():
+                decoded = TAGS.get(tag, tag)
+                exif_dict[decoded] = value
         return exif_dict
 
     @property
