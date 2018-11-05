@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from gallery.models import Image, Album
 from gallery.forms import ImageCreateForm
+from gallery import settings
 
 
 class ImageView(DetailView):
@@ -13,6 +14,7 @@ class ImageView(DetailView):
         context = super(ImageView, self).get_context_data(**kwargs)
         context['album_images'] = []
         context['apk'] = self.kwargs.get('apk')
+
         # If there is an album in the context, look up the images in it
         if context['apk']:
             context['album'] = Album.objects.get(pk=context['apk'])
@@ -22,6 +24,11 @@ class ImageView(DetailView):
 
 class ImageList(ListView):
     model = Image
+
+    def get_context_data(self, **kwargs):
+        context = super(ImageList, self).get_context_data(**kwargs)
+        context['image_margin'] = settings.IMAGE_MARGIN
+        return context
 
 
 class ImageCreate(FormView):
@@ -53,7 +60,6 @@ class ImageCreate(FormView):
             return redirect(next_url)
         else:
             return response
-
 
 
 class AlbumView(DetailView):

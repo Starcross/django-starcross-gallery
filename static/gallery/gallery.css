@@ -2,8 +2,8 @@
 
 /* Main image display block */
 #image_container{
-    display: inline-block;
     position: relative;
+    overflow: auto;
 }
 /* For upload - pulsing drag container on image drag */
 #image_container.highlight:before {

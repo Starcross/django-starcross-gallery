@@ -40,7 +40,7 @@ function justify_images() {
         // This keeps us closer to the target height
         if ((row_width + next_half_width) >= container_width) {
             // Account for the total width of all margins on this row
-            var margin_total = image_margin * (images.length - 1);
+            var margin_total = image_margin * (row_images.length - 1);
             // Find the factor required to shrink or enlarge the images in this row
             var resize_factor = (container_width - margin_total) / row_width;
             resize_row(row_images, resize_factor);
