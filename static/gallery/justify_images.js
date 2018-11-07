@@ -13,8 +13,8 @@ function justify_images() {
 /** Fix the width each image in a container to fully justify each row */
 
     var container = document.getElementById('image_container')
-    // Get exact width of container
-    var container_width = container.getBoundingClientRect()['width'];
+    // Get exact width of container - 1 to allow for rounding error
+    var container_width = container.getBoundingClientRect()['width'] - 1 ;
 
     // Find the images in the thumbnail container
     var images = document.querySelectorAll('.image');
@@ -22,9 +22,9 @@ function justify_images() {
         return;
     }
     // Assume all images have the same height from the ImageSpecField resize
-    var target_height = images[0].naturalHeight / hdpi_factor;
+    // var target_height = images[0].naturalHeight / hdpi_factor;
 
-    // Keep an array of images for the current row and it's width
+    // Build an array of images for the current row and it's width
     var row_width = 0;
     var row_images = [];
     for (var i=0; i < images.length; i++) {
@@ -42,7 +42,7 @@ function justify_images() {
             // Account for the total width of all margins on this row
             var margin_total = image_margin * (row_images.length - 1);
             // Find the factor required to shrink or enlarge the images in this row
-            var resize_factor = (container_width - margin_total) / row_width;
+            var resize_factor = (container_width - margin_total) / (row_width - margin_total);
             resize_row(row_images, resize_factor);
             // Reset values for new row
             row_width = 0;
@@ -50,6 +50,10 @@ function justify_images() {
         } else {
             // Add the margin to the running row width
             row_width += image_margin;
+        }
+        // If there are any orphans on an incomplete last row, resize these
+        if (row_width && i == images.length - 1) {
+            resize_row(row_images, resize_factor);
         }
 
     }
