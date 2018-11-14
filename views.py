@@ -2,6 +2,7 @@ from django.views.generic import DetailView, ListView, FormView
 from django.urls import reverse
 from django.contrib import messages
 from django.shortcuts import redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
 from gallery.models import Image, Album
 from gallery.forms import ImageCreateForm
 from gallery import settings
@@ -31,8 +32,9 @@ class ImageList(ListView):
         return context
 
 
-class ImageCreate(FormView):
+class ImageCreate(LoginRequiredMixin, FormView):
     """ Embedded drag and drop image upload"""
+    login_url = '/admin/login/'
     form_class = ImageCreateForm
     template_name = 'gallery/image_upload.html'
 
