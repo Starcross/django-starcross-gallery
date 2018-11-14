@@ -21,12 +21,12 @@ class Image(models.Model):
 
     data = models.ImageField(upload_to='images')
     data_thumbnail = ImageSpecField(source='data',
-                                    processors=[ResizeToFit(height=settings.GALLERY_THUMBNAIL_SIZE * 2)],
+                                    processors=[ResizeToFit(height=settings.GALLERY_THUMBNAIL_SIZE * settings.HDPI_FACTOR)],
                                     format='JPEG',
                                     options={'quality': settings.GALLERY_RESIZE_QUALITY})
     data_preview = ImageSpecField(source='data',
-                                  processors=[ResizeToFit(width=settings.GALLERY_PREVIEW_SIZE,
-                                                          height=settings.GALLERY_PREVIEW_SIZE)],
+                                  processors=[ResizeToFit(width=settings.GALLERY_PREVIEW_SIZE * settings.HDPI_FACTOR,
+                                                          height=settings.GALLERY_PREVIEW_SIZE * settings.HDPI_FACTOR)],
                                   format='JPEG',
                                   options={'quality': settings.GALLERY_RESIZE_QUALITY})
     date_uploaded = models.DateTimeField(auto_now_add=True)
