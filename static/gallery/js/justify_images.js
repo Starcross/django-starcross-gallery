@@ -78,5 +78,4 @@ function resize_row(images, factor) {
     }
 }
 
-window.addEventListener('load',justify_images);
 window.addEventListener('resize',justify_images);

@@ -1,0 +1,44 @@
+body, html {
+    height: 100%;
+    background-color: #222;
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+}
+
+#top_bar {
+    width: 100%;
+    height: 2.5em;
+    padding: 0.5em;
+    background-color: #111;
+    position: fixed;
+    z-index: 1;
+
+}
+#logo {
+    width: 12em;
+    float: left;
+}
+#title {
+    color: white;
+    padding: 1em 0 1em 13em;
+}
+#content {
+    position: relative;
+
+    min-height: 90%;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 8px 0px 8px 0px;
+}
+
+@media only screen and (max-width: 800px) {
+
+	#main_container{
+	    width: revert;
+	}
+
+
+
+}
+

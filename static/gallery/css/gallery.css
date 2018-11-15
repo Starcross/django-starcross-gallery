@@ -32,6 +32,7 @@
     float: left;
     margin-bottom: 2px;
     position: relative;
+    display: none;
 }
 
 /* Image thumbnail overlay to add background to title */

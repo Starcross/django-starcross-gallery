@@ -1,9 +1,10 @@
-{% extends "base.html" %}
+{% extends "gallery/gallery_base.html" %}
 {% load staticfiles %}
 
 {% block header %}
-    <link rel="stylesheet" type="text/css" href="{% static 'gallery/gallery.css' %}">
-    <script type="text/javascript" src="{% static 'gallery/image_upload.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'gallery/css/gallery.css' %}">
+    <script type="text/javascript" src="{% static 'gallery/js/image_upload.js' %}"></script>
+    <script type="text/javascript" src="{% static 'gallery/js/infinite_scroll.js' %}"></script>
     {% include "gallery/partials/justify_images.html" %}
 {% endblock %}
 
