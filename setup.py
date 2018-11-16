@@ -23,7 +23,7 @@ setup(
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
-        'Framework :: Django :: 2.0.2',
+        'Framework :: Django :: 2.1.3',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)',  # example license
         'Operating System :: OS Independent',

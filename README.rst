@@ -16,14 +16,14 @@ Quick start
 
     INSTALLED_APPS = [
         ...
-        'starcross-gallery',
+        'gallery',
     ]
 
 2. Include the gallery URLconf in your project urls.py like this::
 
-    path('gallery/', include('starcross-gallery.urls')),
+    path('gallery/', include('gallery.urls')),
 
-3. Run `python manage.py migrate` to create the models.
+3. Run `python manage.py migrate gallery` to create the models.
 
 4. Start the development server and create any albums you required in http://127.0.0.1:8000/admin/. It's not necessary to create albums if you prefer just a single image feed
 
