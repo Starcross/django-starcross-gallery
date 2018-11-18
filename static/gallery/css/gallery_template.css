@@ -1,8 +1,13 @@
-body, html {
+html {
     height: 100%;
-    background-color: #222;
-    margin: 0;
+}
+body {
+    position: relative;
+    min-height: 100%;
     font-family: 'Lato', sans-serif;
+    background-color: #222;
+    color: #eee;
+    margin: 0;
 }
 
 #top_bar {
@@ -24,12 +29,29 @@ body, html {
 }
 #content {
     position: relative;
-
-    min-height: 90%;
     width: 90%;
     margin-left: auto;
     margin-right: auto;
-    padding: 8px 0px 8px 0px;
+    padding: 5em 0 6em 0;
+}
+
+#footer {
+    position: absolute;
+    width: auto;
+    left: 0; right: 0; bottom: 0;
+    padding: 1em 1em 1em 2em;
+    margin-top: 1em;
+    background-color: #181818;
+    color: #ddd;
+}
+
+a {
+    color: #888;
+    text-decoration: none;
+}
+
+h2 {
+    margin: 0 0 1em 0;
 }
 
 @media only screen and (max-width: 800px) {

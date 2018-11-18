@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "gallery/gallery_base.html" %}
 {% load staticfiles %}
 
 {% block title %}
@@ -6,11 +6,6 @@
 {% endblock %}
 
 {% block header %}
-
-    <link rel="stylesheet" type="text/css" href="{% static 'gallery/css/gallery.css' %}">
-    <script type="text/javascript" src="{% static 'gallery/js/image_upload.js' %}"></script>
-    {% include "gallery/partials/justify_images.html" %}
-
 {% endblock %}
 
 

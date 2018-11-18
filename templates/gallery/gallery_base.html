@@ -4,16 +4,20 @@
 <html>
 <head>
 
-  <meta charset="utf-8">
-  <meta name="theme-color" content="#000">
-  <meta name="viewport" content="width=device-width, user-scalable=no">
-  <title>{% block title %}Starcross Django Gallery{% endblock %}</title>
-  <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
-  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="{% static 'gallery/css/gallery_template.css' %}">
+    <meta charset="utf-8">
+    <meta name="theme-color" content="#000">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>{% block title %}Starcross Django Gallery{% endblock %}</title>
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'gallery/css/gallery_template.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'gallery/css/gallery.css' %}">
+    <script type="text/javascript" src="{% static 'gallery/js/image_upload.js' %}"></script>
+    <script type="text/javascript" src="{% static 'gallery/js/infinite_scroll.js' %}"></script>
+    {% include "gallery/partials/justify_images.html" %}
 
-   {% block header %}
-   {% endblock %}
+    {% block header %}
+    {% endblock %}
 
 </head>
 
@@ -26,7 +30,7 @@
     </div>
     <div id="title">Gallery</div>
 
-</div>
+</div> <!-- top_bar -->
 
 <div id="content">
 
@@ -38,14 +42,13 @@
 
 <div id="footer">
 
-    <span>Starcross Django Gallery</span><br>
+    <span>Starcross Gallery</span><br>
     <span><a href="mailto:info@starcross.eu">info@starcross.eu</a></span>
 
 </div> <!--footer-->
 
-
-
 {% include "google_analytics.html" %}
+
 </body>
 
 </html>
