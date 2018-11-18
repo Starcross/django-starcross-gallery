@@ -8,8 +8,8 @@ from gallery.models import Album
 
 class ImageTests(TestCase):
 
-    test_image_title = "My first Image"
-    test_album_title = "My first Album"
+    test_image_title = "Test Image"
+    test_album_title = "My First Album"
 
     def setUp(self):
 
