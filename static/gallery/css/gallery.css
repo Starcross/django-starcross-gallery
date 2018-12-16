@@ -12,10 +12,7 @@
     position: absolute;
     content: '';
     pointer-events: none;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    top: 0; right: 0; bottom: 0; left: 0;
     z-index: 1;
 }
 @keyframes pulse {
@@ -34,6 +31,21 @@
     position: relative;
     display: none;
 }
+.empty {
+    width: 4em;
+    padding: 8em;
+    border: 2px solid #333;
+}
+
+#empty_placeholder {
+    background: rgba(64,64,64, 0.3);
+    border: 1px solid #666;
+    height: 10em;
+    /* Centre */
+    line-height: 10em;
+    text-align: center;
+    vertical-align: middle;
+    }
 
 /* Image thumbnail overlay to add background to title */
 .overlay {
@@ -42,16 +54,15 @@
     top: 0; bottom: 0; left: 0; right: 0;
     opacity: 0;
     transition: all .15s ease-in-out;
-
 }
 .overlay:hover {
-    background: linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(0,0,0,0.6));
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(0,0,0,0.7));
     opacity: 1;
 }
 .overlay .label {
     position: absolute;
     bottom: 0;
-    margin: 0 0 5% 6%;
+    margin: 0 0 1.2em 1.3em;
     color: #eee;
     font-size: 1em;
     opacity: 0;
@@ -59,7 +70,6 @@
 .overlay:hover .label {
     opacity: 1;
 }
-
 
 #album_preview {
     overflow-x: scroll;

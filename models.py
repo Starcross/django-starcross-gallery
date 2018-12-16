@@ -65,7 +65,6 @@ class Image(models.Model):
     def title(self, name):
         self._title = name
 
-
     def get_absolute_url(self):
         return reverse('gallery:image_detail', kwargs={'pk': self.pk, 'slug': self.slug})
 
@@ -79,7 +78,7 @@ class Album(models.Model):
     highlight = models.OneToOneField(Image,
                                      related_name='album_highlight',
                                      null=True, blank=True,
-                                     on_delete=models.PROTECT
+                                     on_delete=models.SET_NULL
                                      )
 
     @property

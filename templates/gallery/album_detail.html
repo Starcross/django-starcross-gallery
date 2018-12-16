@@ -27,6 +27,15 @@
 
     {% endfor %}
 
+
+    {% if not album.images.all and user.is_authenticated %}
+
+        <div id="empty_placeholder">
+            Drag images into this box to upload to the album
+        </div>
+
+    {% endif %}
+
 </div>
 
 {% endblock %}

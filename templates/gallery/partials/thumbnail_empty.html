@@ -1,0 +1,17 @@
+{% load staticfiles %}
+
+<div class="thumbnail">
+
+        <img id="image_{{ forloop.counter0 }}"
+             class="image empty"
+             alt="{{ album.title }}"
+             data-src="{% static 'gallery/images/album.png' %}"
+             style="margin-right: {{ image_margin }}px"/>
+
+        <div class="overlay">
+
+            <div class="label"> {{ album.title }} </div>
+
+        </div>
+
+</div>

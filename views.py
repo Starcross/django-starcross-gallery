@@ -76,6 +76,11 @@ class AlbumList(ListView):
     model = Album
     template_name = 'gallery/album_list.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(AlbumList, self).get_context_data(**kwargs)
+        context['image_margin'] = settings.IMAGE_MARGIN
+        return context
+
     def get_queryset(self):
         # Return a list of albums containing a highlight even if none is selected
         album_list = []
