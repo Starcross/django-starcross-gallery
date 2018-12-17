@@ -37,4 +37,4 @@ Credits
 
 Starcross Gallery is by Alex Luton <info@starcross.eu>, published under GNU LGPLv3
 
-Album icon by Google licensed CC 3.0 BY
+Album icon by Google licensed CC BY 3.0

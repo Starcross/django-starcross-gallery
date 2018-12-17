@@ -1,6 +1,7 @@
 html {
     height: 100%;
 }
+
 body {
     position: relative;
     min-height: 100%;
@@ -19,14 +20,17 @@ body {
     z-index: 1;
 
 }
+
 #logo {
     width: 12em;
     float: left;
 }
+
 #title {
     color: white;
     padding: 1em 0 1em 13em;
 }
+
 #content {
     position: relative;
     width: 90%;
@@ -45,14 +49,19 @@ body {
     color: #ddd;
 }
 
+#album_subheading {
+    float: right;
+}
+
 a {
     color: #888;
     text-decoration: none;
 }
 
-h2 {
+h2, h3 {
     margin: 0 0 1em 0;
 }
+
 
 @media only screen and (max-width: 800px) {
 
