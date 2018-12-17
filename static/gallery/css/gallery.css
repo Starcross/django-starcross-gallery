@@ -76,3 +76,14 @@
     overflow-y: hidden;
     white-space: nowrap;
 }
+#album_preview img.image {
+    height: 15vh;
+
+}
+#image_preview {
+    width: 100%;
+    height: 80vh;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
