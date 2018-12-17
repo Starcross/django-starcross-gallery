@@ -31,6 +31,10 @@ class ImageList(ListView):
         context['image_margin'] = settings.IMAGE_MARGIN
         return context
 
+    def get_queryset(self):
+        # Order by newest first
+        return super(ImageList, self).get_queryset().order_by('-pk')
+
 
 class ImageCreate(LoginRequiredMixin, FormView):
     """ Embedded drag and drop image upload"""
@@ -71,6 +75,16 @@ class AlbumView(DetailView):
         context = super(AlbumView, self).get_context_data(**kwargs)
         return context
 
+    def get_queryset(self):
+        album = super(AlbumView, self).get_queryset()
+        return album
+
+    def get_context_data(self, **kwargs):
+        context = super(AlbumView, self).get_context_data(**kwargs)
+        images = context['album'].images.all()
+        context['images'] = sorted(images, key=lambda i: i.date_taken)
+        return context
+
 
 class AlbumList(ListView):
     model = Album
@@ -84,7 +98,7 @@ class AlbumList(ListView):
     def get_queryset(self):
         # Return a list of albums containing a highlight even if none is selected
         album_list = []
-        for album in super(AlbumList, self).get_queryset():
+        for album in super(AlbumList, self).get_queryset().order_by('-pk'):
             # if there is no highlight but there are images in the album, use the first
             if not album.highlight and album.images.count():
                 first_image = album.images.earliest('id')

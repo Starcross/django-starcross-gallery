@@ -7,6 +7,8 @@ from PIL import Image as pImage
 from PIL.ExifTags import TAGS
 from gallery import settings
 from pathlib import Path
+from datetime import datetime
+import os
 
 
 # Create your models here.
@@ -40,13 +42,22 @@ class Image(models.Model):
     def exif(self):
         exif_dict = {}
         self.data.open()
-        img = pImage.open(self.data)
-        if hasattr(img, '_getexif'):
-            info = img._getexif()
-            for tag, value in info.items():
-                decoded = TAGS.get(tag, tag)
-                exif_dict[decoded] = value
+        with pImage.open(self.data) as img:
+            if hasattr(img, '_getexif'):
+                info = img._getexif()
+                for tag, value in info.items():
+                    decoded = TAGS.get(tag, tag)
+                    exif_dict[decoded] = value
         return exif_dict
+
+
+    @property
+    def date_taken(self):
+        original_exif = self.exif.get('DateTimeOriginal')
+        if original_exif:
+            return datetime.strptime(original_exif, "%Y:%m:%d %H:%M:%S")
+        else:  # Fall back to file modification time
+            return datetime.fromtimestamp(os.path.getmtime(self.data.path))
 
     @property
     def title(self):

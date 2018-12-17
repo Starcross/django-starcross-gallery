@@ -17,7 +17,7 @@
 
 <div id="image_container">
 
-    {% for image in album.images.all %}
+    {% for image in images %}
 
         <a href="{% url 'gallery:album_image_detail' album.pk image.pk image.slug %}">
 
