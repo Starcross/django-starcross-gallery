@@ -28,7 +28,7 @@ class ImageList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ImageList, self).get_context_data(**kwargs)
-        context['image_margin'] = settings.IMAGE_MARGIN
+        context['image_margin'] = settings.GALLERY_IMAGE_MARGIN
         return context
 
     def get_queryset(self):
@@ -92,7 +92,7 @@ class AlbumList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(AlbumList, self).get_context_data(**kwargs)
-        context['image_margin'] = settings.IMAGE_MARGIN
+        context['image_margin'] = settings.GALLERY_IMAGE_MARGIN
         return context
 
     def get_queryset(self):

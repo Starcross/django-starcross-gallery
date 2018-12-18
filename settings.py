@@ -12,6 +12,6 @@ GALLERY_PREVIEW_SIZE = getattr(settings, 'GALLERY_PREVIEW_SIZE', 1000)
 # JPEG encoding quality
 GALLERY_RESIZE_QUALITY = getattr(settings, 'GALLERY_RESIZE_QUALITY', 80)
 # Multiple used to increase quality on high resolution screens. Default to double
-HDPI_FACTOR = getattr(settings, 'HDPI_FACTOR', 2)
+GALLERY_HDPI_FACTOR = getattr(settings, 'GALLERY_HDPI_FACTOR', 2)
 # Image margin as float
-IMAGE_MARGIN = getattr(settings, 'IMAGE_MARGIN', 6.0)
+GALLERY_IMAGE_MARGIN = getattr(settings, 'GALLERY_IMAGE_MARGIN', 6.0)

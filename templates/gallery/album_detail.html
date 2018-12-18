@@ -6,6 +6,11 @@
 {% endblock %}
 
 {% block header %}
+
+    <script type="text/javascript" src="{% static 'gallery/js/image_upload.js' %}"></script>
+    <script type="text/javascript" src="{% static 'gallery/js/infinite_scroll.js' %}"></script>
+    {% include "gallery/partials/justify_images.html" %}
+
 {% endblock %}
 
 
@@ -19,7 +24,7 @@
 
     {% for image in images %}
 
-        <a href="{% url 'gallery:album_image_detail' album.pk image.pk image.slug %}">
+        <a href="{% url 'gallery:album_image_detail' album.pk image.pk image.slug %}#image_{{ image.pk }}">
 
             {% include "gallery/partials/thumbnail.html" %}
 

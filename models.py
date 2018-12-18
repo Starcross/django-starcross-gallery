@@ -1,6 +1,7 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.urls import reverse
+from django.utils.functional import cached_property
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit
 from PIL import Image as pImage
@@ -23,12 +24,13 @@ class Image(models.Model):
 
     data = models.ImageField(upload_to='images')
     data_thumbnail = ImageSpecField(source='data',
-                                    processors=[ResizeToFit(height=settings.GALLERY_THUMBNAIL_SIZE * settings.HDPI_FACTOR)],
+                                    processors=[ResizeToFit(
+                                        height=settings.GALLERY_THUMBNAIL_SIZE * settings.GALLERY_HDPI_FACTOR)],
                                     format='JPEG',
                                     options={'quality': settings.GALLERY_RESIZE_QUALITY})
     data_preview = ImageSpecField(source='data',
-                                  processors=[ResizeToFit(width=settings.GALLERY_PREVIEW_SIZE * settings.HDPI_FACTOR,
-                                                          height=settings.GALLERY_PREVIEW_SIZE * settings.HDPI_FACTOR)],
+                                  processors=[ResizeToFit(width=settings.GALLERY_PREVIEW_SIZE * settings.GALLERY_HDPI_FACTOR,
+                                                          height=settings.GALLERY_PREVIEW_SIZE * settings.GALLERY_HDPI_FACTOR)],
                                   format='JPEG',
                                   options={'quality': settings.GALLERY_RESIZE_QUALITY})
     date_uploaded = models.DateTimeField(auto_now_add=True)
@@ -38,20 +40,22 @@ class Image(models.Model):
     def slug(self):
         return slugify(self.title)
 
-    @property
+    @cached_property
     def exif(self):
         exif_dict = {}
         self.data.open()
         with pImage.open(self.data) as img:
             if hasattr(img, '_getexif'):
                 info = img._getexif()
+                if not info:
+                    return {}
                 for tag, value in info.items():
                     decoded = TAGS.get(tag, tag)
                     exif_dict[decoded] = value
         return exif_dict
 
 
-    @property
+    @cached_property
     def date_taken(self):
         original_exif = self.exif.get('DateTimeOriginal')
         if original_exif:
