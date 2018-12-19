@@ -25,12 +25,64 @@ Quick start
 
     path('gallery/', include('gallery.urls')),
 
-3. Run `python manage.py migrate gallery` to create the models.
+3. Ensure a `MEDIA directory <https://docs.djangoproject.com/en/2.1/topics/files/>`_ is set up
 
-4. Start the development server and create any albums you required in http://127.0.0.1:8000/admin/. It's not necessary to create albums if you prefer just a single image feed
+4. Run `python manage.py migrate gallery` to create the models.
 
-5. Visit http://127.0.0.1:8000/gallery/ to access your image feed. Drag your images onto the page and you will see a flashing highlighted box.
+5. Start the development server and create any albums you required in http://127.0.0.1:8000/admin/. It's not necessary to create albums if you prefer just a single image feed
 
+6. Visit http://127.0.0.1:8000/gallery/ to access the gallery. Albums can be added through the django admin interface (/admin)
+
+
+Instructions
+------------
+
+Starcross gallery groups Images into Albums, which enables your to organise your presentation. Add albums via the django admin interface, and drag multiple images into your empty albums in the album page itself. It's also possible to use the gallery as a flat image feed only, which is a view published at <gallery base>/images. All images will be displayed here in descending date order. You can add images here directly as well, but they will not be added to an album.
+
+The gallery was designed with simplicity of Image management in mind, so titles are derived from the file name. You only need to add albums and then drag your collection into place. The idea is to avoid the need to manage your collection both on the website and on your disk. If you wish to reorganise, you can delete and easily re-upload
+
+Images in albums are ordered by the date the photo was taken if available in the exif data, or failing that the modification date
+
+Settings
+--------
+
+Override these default settings by adding to your settings.py
+
+**GALLERY_THUMBNAIL_SIZE** Default: 200
+
+The target thumbnail height in px. This will vary slightly in rendering due to the justified layout
+
+**GALLERY_PREVIEW_SIZE** -- Default: 1000
+
+The preview size in px - width or height, whichever is largest. The rendered image size will depend on the size of the browser window, so this should be set high enough to not cause a deterioration in quality
+
+**GALLERY_RESIZE_QUALITY** Default: 80
+
+JPEG quality (0-100) of the preview and thumbnail images
+
+**GALLERY_HDPI_FACTOR** -- Default: 2
+
+The actual preview and thumbnail sizes are multiplied by this number, but rendered according to the quoted value. This enables high dpi displays, such as many mobile devices to show more detail and take advantage of their extra resolution. Some go up to 4x now, so recommended values are 1-4
+
+**GALLERY_IMAGE_MARGIN** -- Default: 6
+
+Margin between thumbnails in px. Some may prefer a less condensed look, so increase this value if your template requires it
+
+
+Troubleshooting
+---------------
+
+**Broken image links after upload**
+
+Check your MEDIA settings. If the media location on disk is changed, you will need to copy the files in the CACHE directory to the new location, or delete and re-upload the broken images
+
+**Errors during upload**
+
+Your server may have a limit on maximum request size (e.g. client_max_body_size for nginx). This needs to be larger than the combined total of all the images your are uploading at once. Also the timeout may need to be extended as preview and thumbnail caches are generated at the time of upload
+
+**Delay when dragging images into upload box**
+
+If you are using Firefox on Linux, there can be a delay before the upload box flashes to acknowledge the pending files, proportional to the number of files. You can use another browser such as Chrome if this is inconvenient.
 
 Credits
 -------
