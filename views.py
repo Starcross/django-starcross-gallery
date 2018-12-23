@@ -8,7 +8,23 @@ from gallery.forms import ImageCreateForm
 from gallery import settings
 
 
-class ImageView(DetailView):
+class GallerySettingsMixin(object):
+    """ Apply Gallery's Settings to a view """
+
+    def get_context_data(self, **kwargs):
+        """ Make settings available the template """
+        context = super(GallerySettingsMixin, self).get_context_data(**kwargs)
+        context['logo_path'] = settings.GALLERY_LOGO_PATH
+        context['gallery_title'] = settings.GALLERY_TITLE
+        context['hdpi_factor'] = settings.GALLERY_HDPI_FACTOR
+        context['image_margin'] = settings.GALLERY_IMAGE_MARGIN
+        context['footer_info'] = settings.GALLERY_FOOTER_INFO
+        context['footer_email'] = settings.GALLERY_FOOTER_EMAIL
+
+        return context
+
+
+class ImageView(GallerySettingsMixin, DetailView):
     model = Image
 
     def get_context_data(self, **kwargs):
@@ -23,20 +39,15 @@ class ImageView(DetailView):
         return context
 
 
-class ImageList(ListView):
+class ImageList(GallerySettingsMixin, ListView):
     model = Image
-
-    def get_context_data(self, **kwargs):
-        context = super(ImageList, self).get_context_data(**kwargs)
-        context['image_margin'] = settings.GALLERY_IMAGE_MARGIN
-        return context
 
     def get_queryset(self):
         # Order by newest first
         return super(ImageList, self).get_queryset().order_by('-pk')
 
 
-class ImageCreate(LoginRequiredMixin, FormView):
+class ImageCreate(GallerySettingsMixin, LoginRequiredMixin, FormView):
     """ Embedded drag and drop image upload"""
     login_url = '/admin/login/'
     form_class = ImageCreateForm
@@ -68,7 +79,7 @@ class ImageCreate(LoginRequiredMixin, FormView):
             return response
 
 
-class AlbumView(DetailView):
+class AlbumView(GallerySettingsMixin, DetailView):
     model = Album
 
     def get_context_data(self, **kwargs):
@@ -86,14 +97,9 @@ class AlbumView(DetailView):
         return context
 
 
-class AlbumList(ListView):
+class AlbumList(GallerySettingsMixin, ListView):
     model = Album
     template_name = 'gallery/album_list.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(AlbumList, self).get_context_data(**kwargs)
-        context['image_margin'] = settings.GALLERY_IMAGE_MARGIN
-        return context
 
     def get_queryset(self):
         # Return a list of albums containing a highlight even if none is selected

@@ -6,17 +6,19 @@
 {% endblock %}
 
 {% block header %}
-
     <script type="text/javascript" src="{% static 'gallery/js/image_upload.js' %}"></script>
     <script type="text/javascript" src="{% static 'gallery/js/infinite_scroll.js' %}"></script>
     {% include "gallery/partials/justify_images.html" %}
+{% endblock %}
 
+{% block bar_title %}
+    <div id="title"> {{ album.title }} </div>
 {% endblock %}
 
 
 {% block content %}
 
-<h2>{{ album.title }}</h2>
+<!--<h2>{{ album.title }}</h2>-->
 
 {% include "gallery/partials/image_upload_form.html" %}
 

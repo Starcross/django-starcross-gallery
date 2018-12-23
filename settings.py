@@ -3,8 +3,15 @@ from django.conf import settings
 # Override default just in time setting
 IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY = 'imagekit.cachefiles.strategies.Optimistic'
 
-# Image resize defaults
 
+# Location of logo in static
+GALLERY_LOGO_PATH = getattr(settings, 'GALLERY_LOGO_PATH', "gallery/images/starcross.png")
+# Gallery title in top bar
+GALLERY_TITLE = getattr(settings, 'GALLERY_TITLE', "Gallery")
+# Info text in footer
+GALLERY_FOOTER_INFO = getattr(settings, 'GALLERY_FOOTER_INFO', "Starcross Gallery")
+# Gallery footer email
+GALLERY_FOOTER_EMAIL = getattr(settings, 'GALLERY_FOOTER_EMAIL', "gallery@starcross.eu")
 # Target height for thumbnail display
 GALLERY_THUMBNAIL_SIZE = getattr(settings, 'GALLERY_THUMBNAIL_SIZE', 250)
 # Large preview in modal popup, enough to fill a typical browser window

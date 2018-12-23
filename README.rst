@@ -48,7 +48,20 @@ Settings
 
 Override these default settings by adding to your settings.py
 
-**GALLERY_THUMBNAIL_SIZE** Default: 200
+
+**GALLERY_LOGO_PATH** -- Default: "gallery/images/starcross.png"
+
+Path to the header logo within the static directory
+
+**GALLERY_FOOTER_INFO** -- Default: "Starcross Gallery"
+
+Information text in the footer
+
+**GALLERY_FOOTER_EMAIL** -- Default: "gallery@starcross.eu"
+
+Contact email address in the footer
+
+**GALLERY_THUMBNAIL_SIZE** -- Default: 200
 
 The target thumbnail height in px. This will vary slightly in rendering due to the justified layout
 
@@ -56,7 +69,7 @@ The target thumbnail height in px. This will vary slightly in rendering due to t
 
 The preview size in px - width or height, whichever is largest. The rendered image size will depend on the size of the browser window, so this should be set high enough to not cause a deterioration in quality
 
-**GALLERY_RESIZE_QUALITY** Default: 80
+**GALLERY_RESIZE_QUALITY** -- Default: 80
 
 JPEG quality (0-100) of the preview and thumbnail images
 
@@ -87,6 +100,6 @@ If you are using Firefox on Linux, there can be a delay before the upload box fl
 Credits
 -------
 
-Starcross Gallery is by Alex Luton <info@starcross.eu>, published under GNU LGPLv3
+Starcross Gallery is by Alex Luton <gallery@starcross.eu>, published under GNU LGPLv3
 
 Album icon by Google licensed CC BY 3.0

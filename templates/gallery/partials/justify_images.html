@@ -1,7 +1,7 @@
 {% load staticfiles %}
 <script>
-    /** TODO: Take values from app settings */
-    hdpi_factor = 2;
-    image_margin = 6.0;
+    /** Use values from app settings */
+    hdpi_factor = {{ hdpi_factor }};
+    image_margin = {{ image_margin }};
 </script>
 <script type="text/javascript" src="{% static 'gallery/js/justify_images.js' %}"></script>

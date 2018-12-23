@@ -70,6 +70,10 @@
 .overlay:hover .label {
     opacity: 1;
 }
+/* Smaller thumbnails on image detail page */
+.overlay .preview {
+    margin: 0 0 0.7em 0.7em;
+}
 
 #album_preview {
     overflow-x: scroll;

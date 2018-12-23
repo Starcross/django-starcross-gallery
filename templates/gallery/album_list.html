@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title %}
-    Gallery
+    {{ gallery_title }}
 {% endblock %}
 
 {% block header %}
@@ -10,6 +10,10 @@
     <script type="text/javascript" src="{% static 'gallery/js/infinite_scroll.js' %}"></script>
     {% include "gallery/partials/justify_images.html" %}
 
+{% endblock %}
+
+{% block bar_title %}
+    <div id="title">{{ gallery_title }}</div>
 {% endblock %}
 
 {% block content %}
