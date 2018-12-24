@@ -7,6 +7,15 @@
 
 {% block header %}
 
+    <script type="text/javascript">
+        {% if previous_image %}
+            previous_image_url = '{% url 'gallery:album_image_detail' apk previous_image.pk previous_image.slug %}#image_{{ previous_image.pk }}';
+        {% endif %}
+        {% if next_image %}
+            next_image_url = '{% url 'gallery:album_image_detail' apk next_image.pk next_image.slug %}#image_{{ next_image.pk }}';
+        {% endif %}
+    </script>
+    <script type="text/javascript" src="{% static 'gallery/js/image_navigation.js' %}"></script>
     <style>
     body, html {
         height: 100%;
@@ -35,7 +44,9 @@
 <h2>{{ image.title }}</h2>
 -->
 
-<div id="image_preview" style="background-image:url('{{ image.data_preview.url }}')"></div>
+<a href="{{ image.data.url }}">
+    <div id="image_preview" style="background-image:url('{{ image.data_preview.url }}')"></div>
+</a>
 
 {% if album_images %}
     <div id="album_preview">

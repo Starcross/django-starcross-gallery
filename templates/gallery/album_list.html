@@ -18,6 +18,8 @@
 
 {% block content %}
 
+<div id="image_container">
+
 {% for album in object_list %}
     <a href="{% url 'gallery:album_detail' album.pk album.slug  %}">
 
@@ -31,5 +33,7 @@
 
     </a>
 {% endfor %}
+
+</div>
 
 {% endblock %}

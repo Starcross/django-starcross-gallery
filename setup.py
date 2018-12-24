@@ -11,7 +11,7 @@ requirements = ['django-imagekit==4.0.2', 'Pillow==5.0.0']
 
 setup(
     name='django-starcross-gallery',
-    version='0.2',
+    version='1.0.0',
     packages=find_packages(),
     include_package_data=True,
     license='GNU LGPLv3',

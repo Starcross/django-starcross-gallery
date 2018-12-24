@@ -35,7 +35,18 @@ class ImageView(GallerySettingsMixin, DetailView):
         # If there is an album in the context, look up the images in it
         if context['apk']:
             context['album'] = Album.objects.get(pk=context['apk'])
-            context['album_images'] = context['album'].images.all
+            images = context['album'].images.all()
+            album_images = sorted(images, key=lambda i: i.date_taken)
+            context['album_images'] = album_images
+            context['next_image'] = None
+            context['previous_image'] = None
+            for i in range(len(album_images)):
+                if self.object.pk == album_images[i].pk:
+                    if i > 0:
+                        context['previous_image'] = album_images[i - 1]
+                    if i < len(album_images) - 1:
+                        context['next_image'] = album_images[i + 1]
+
         return context
 
 
