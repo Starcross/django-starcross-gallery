@@ -2,8 +2,9 @@ from django.test import TestCase
 from django.urls import reverse
 from django.conf import settings
 import os
+from datetime import datetime
 
-from gallery.models import Album
+from gallery.models import Album, Image
 
 
 class ImageTests(TestCase):
@@ -43,4 +44,13 @@ class ImageTests(TestCase):
         self.empty_album = Album.objects.create(title='Empty album')
         response = self.client.get(reverse('gallery:album_list'))
         self.assertEqual(response.status_code, 200)
+
+    def test_image_properties(self):
+
+        image = Image.objects.all()[0]
+        self.assertEqual(image.title, ImageTests.test_image_title)
+        self.assertEqual(image.date_taken, datetime.strptime("2013-03-21 15:04:53", "%Y-%m-%d %H:%M:%S"))
+        self.assertEqual(image.slug, "test-image")
+        pass
+
 
