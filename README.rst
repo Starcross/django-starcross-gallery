@@ -14,24 +14,28 @@ Demo at http://starcross.eu/gallery
 Quick start
 -----------
 
-1. Add "gallery" to your INSTALLED_APPS setting like this::
+1. Install Starcross gallery using pip::
+
+    pip install django-starcross-gallery
+
+2. Add "gallery" to your INSTALLED_APPS setting like this::
 
     INSTALLED_APPS = [
         ...
         'gallery',
     ]
 
-2. Include the gallery URLconf in your project urls.py like this with your preferred location e.g. "gallery/"::
+3. Include the gallery URLconf in your project urls.py like this with your preferred location e.g. "gallery/"::
 
     path('gallery/', include('gallery.urls')),
 
-3. Ensure a `MEDIA directory <https://docs.djangoproject.com/en/2.1/topics/files/>`_ is set up
+4. Ensure a `MEDIA directory <https://docs.djangoproject.com/en/2.1/topics/files/>`_ is set up
 
-4. Run `python manage.py migrate gallery` to create the models.
+5. Run `python manage.py migrate gallery` to create the models.
 
-5. Start the development server and create any albums you required in http://127.0.0.1:8000/admin/. It's not necessary to create albums if you prefer just a single image feed
+6. Start the development server and create any albums you required in http://127.0.0.1:8000/admin/. It's not necessary to create albums if you prefer just a single image feed
 
-6. Visit http://127.0.0.1:8000/gallery/ to access the gallery. Albums can be added through the django admin interface (/admin)
+7. Visit http://127.0.0.1:8000/gallery/ to access the gallery. Albums can be added through the django admin interface (/admin)
 
 
 Instructions
@@ -52,6 +56,10 @@ Override these default settings by adding to your settings.py
 **GALLERY_LOGO_PATH** -- Default: "gallery/images/starcross.png"
 
 Path to the header logo within the static directory
+
+**GALLERY_TITLE** -- Default: "Gallery"
+
+The title of the Gallery shown in the header on the main page and image feed
 
 **GALLERY_FOOTER_INFO** -- Default: "Starcross Gallery"
 
