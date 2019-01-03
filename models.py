@@ -36,7 +36,7 @@ class Image(models.Model):
     date_uploaded = models.DateTimeField(auto_now_add=True)
     tag = models.ManyToManyField(Tag, blank=True)
 
-    @property
+    @cached_property
     def slug(self):
         return slugify(self.title)
 
@@ -54,14 +54,19 @@ class Image(models.Model):
                     exif_dict[decoded] = value
         return exif_dict
 
-
     @cached_property
     def date_taken(self):
         original_exif = self.exif.get('DateTimeOriginal')
-        if original_exif:
+        if not original_exif:
+            return self.mtime
+        try:
             return datetime.strptime(original_exif, "%Y:%m:%d %H:%M:%S")
-        else:  # Fall back to file modification time
-            return datetime.fromtimestamp(os.path.getmtime(self.data.path))
+        except ValueError:  # Fall back to file modification time
+            return self.mtime
+
+    @cached_property
+    def mtime(self):
+        return datetime.fromtimestamp(os.path.getmtime(self.data.path))
 
     @property
     def title(self):

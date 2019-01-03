@@ -30,6 +30,8 @@
     margin-bottom: 2px;
     position: relative;
     display: none;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
 }
 .empty {
     width: 4em;
@@ -62,7 +64,7 @@
 .overlay .label {
     position: absolute;
     bottom: 0;
-    margin: 0 0 1.2em 1.3em;
+    margin: 0 0 1.3em 1em;
     color: #eee;
     font-size: 1em;
     opacity: 0;
