@@ -1,6 +1,6 @@
 // Load images on demand as user scrolls down the page
 
-var pagination_size = 20;
+var pagination_size = 40;
 var scroll_cursor = 0;
 
 function init_infinite_scroll() {
