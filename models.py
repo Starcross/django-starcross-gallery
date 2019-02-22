@@ -12,14 +12,6 @@ from datetime import datetime
 import os
 
 
-# Create your models here.
-class Tag(models.Model):
-    name = models.CharField(max_length=250)
-
-    def __str__(self):
-        return self.name
-
-
 class Image(models.Model):
 
     data = models.ImageField(upload_to='images')
@@ -34,7 +26,6 @@ class Image(models.Model):
                                   format='JPEG',
                                   options={'quality': settings.GALLERY_RESIZE_QUALITY})
     date_uploaded = models.DateTimeField(auto_now_add=True)
-    tag = models.ManyToManyField(Tag, blank=True)
 
     @cached_property
     def slug(self):
