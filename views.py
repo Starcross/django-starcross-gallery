@@ -115,7 +115,7 @@ class AlbumList(GallerySettingsMixin, ListView):
     def get_queryset(self):
         # Return a list of albums containing a highlight even if none is selected
         album_list = []
-        for album in super(AlbumList, self).get_queryset().order_by('-pk'):
+        for album in super(AlbumList, self).get_queryset():
             # if there is no highlight but there are images in the album, use the first
             if not album.highlight and album.images.count():
                 first_image = album.images.earliest('id')

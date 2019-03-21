@@ -11,7 +11,7 @@ requirements = ['django-imagekit==4.0.2', 'Pillow==5.0.0']
 
 setup(
     name='django-starcross-gallery',
-    version='1.0.2',
+    version='1.0.3',
     packages=find_packages(),
     include_package_data=True,
     license='GNU LGPLv3',
@@ -25,7 +25,7 @@ setup(
         'Framework :: Django',
         'Framework :: Django :: 2.1',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)',  # example license
+        'License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3.5',

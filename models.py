@@ -91,6 +91,10 @@ class Album(models.Model):
                                      null=True, blank=True,
                                      on_delete=models.SET_NULL
                                      )
+    order = models.PositiveIntegerField(default=0, blank=False, null=False)
+
+    class Meta(object):
+        ordering = ['order', '-pk']
 
     @property
     def slug(self):

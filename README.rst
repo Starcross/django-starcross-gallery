@@ -47,6 +47,8 @@ The gallery was designed with simplicity of Image management in mind, so titles 
 
 Images in albums are ordered by the date the photo was taken if available in the exif data, or failing that the modification date
 
+Album order can be specified in the Django admin interface. Support for `django-admin-sortable2 <https://github.com/jrief/django-admin-sortable2>`_ is provided, if you want drag and drop ordering in the admin interface. Just installing the module is all that's required. If you have already added albums you will need to use the `reorder <https://django-admin-sortable2.readthedocs.io/en/latest/usage.html#initial-data>`_ command.
+
 Settings
 --------
 

@@ -1,6 +1,14 @@
 from gallery.models import Image, Album
 from django.contrib import admin
 from imagekit.admin import AdminThumbnail
+# Support adminsortable2 optionally
+import importlib
+if importlib.util.find_spec('adminsortable2', 'admin'):
+    from adminsortable2.admin import SortableAdminMixin
+else:
+    # Mock up class for mixin
+    class SortableAdminMixin:
+        mock = True
 
 
 class ImageAdmin(admin.ModelAdmin):
@@ -11,7 +19,12 @@ class ImageAdmin(admin.ModelAdmin):
     readonly_fields = ('admin_thumbnail',)
 
 
-class AlbumAdmin(admin.ModelAdmin):
+class AlbumAdmin(SortableAdminMixin, admin.ModelAdmin):
+    list_display = ('order', 'title')
+    list_display_links = ('title',)
+    if hasattr(SortableAdminMixin, 'mock'):
+        list_editable = ('order',)
+        list_display = ('title', 'order')
     filter_horizontal = ('images',)
     raw_id_fields = ('highlight',)
 
