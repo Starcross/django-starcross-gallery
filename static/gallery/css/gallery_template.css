@@ -28,7 +28,9 @@ body {
 
 #title {
     color: white;
-    padding: 1em 0 1em 13em;
+    padding: 0.9em 0 1em 12.8em;
+    white-space: nowrap;
+
 }
 
 #content {
