@@ -33,7 +33,7 @@ class Image(models.Model):
 
     @cached_property
     def exif(self):
-        exif_dict = {}
+        exif_data = {}
         self.data.open()
         with pImage.open(self.data) as img:
             if hasattr(img, '_getexif'):
@@ -42,8 +42,15 @@ class Image(models.Model):
                     return {}
                 for tag, value in info.items():
                     decoded = TAGS.get(tag, tag)
-                    exif_dict[decoded] = value
-        return exif_dict
+                    exif_data[decoded] = value
+                if 'FNumber' in exif_data:
+                    exif_data['Aperture'] = str(exif_data['FNumber'][0] / exif_data['FNumber'][1])
+                if 'ExposureTime' in exif_data:
+                    exif_data['Exposure'] = "{0}/{1}".format(exif_data['ExposureTime'][0],
+                                                             exif_data['ExposureTime'][1])
+
+
+        return exif_data
 
     @cached_property
     def date_taken(self):

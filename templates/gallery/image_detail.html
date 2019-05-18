@@ -44,7 +44,7 @@
 -->
 
 <a href="{{ image.data.url }}">
-    <div id="image_preview" style="background-image:url('{{ image.data_preview.url }}')"></div>
+    <img id="image_preview" src="{{ image.data_preview.url }}" alt="{{ image.title }}"/>
 </a>
 
 {% if album_images %}
@@ -70,6 +70,13 @@
     </div>
 {% endif %}
 
-<!--{{ image.exif }}-->
+<!--
+Camera: {{ image.exif.Make|title }} {{ image.exif.Model }}
+Lens: {{ image.exif.LensModel }}
+Focal Length (35mm): {{ image.exif.FocalLengthIn35mmFilm }}mm
+Aperture: F/{{ image.exif.Aperture }}
+Exposure: {{ image.exif.Exposure }}s
+ISO: {{ image.exif.ISOSpeedRatings }}
+-->
 
 {% endblock %}

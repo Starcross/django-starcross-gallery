@@ -12,7 +12,7 @@
 function justify_images() {
 /** Fix the width each image in a container to fully justify each row */
 
-    var container = document.getElementById('image_container')
+    var container = document.getElementById('image_container');
     // Get exact width of container - 1 to allow for rounding error
     var container_width = container.getBoundingClientRect()['width'] - 1 ;
 
@@ -52,7 +52,7 @@ function justify_images() {
             row_width += image_margin;
         }
         // If there are any orphans on an incomplete last row, resize these
-        if (row_width && i == images.length - 1) {
+        if (row_width && i === images.length - 1) {
             resize_row(row_images, resize_factor);
         }
 

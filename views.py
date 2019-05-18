@@ -93,10 +93,6 @@ class ImageCreate(GallerySettingsMixin, LoginRequiredMixin, FormView):
 class AlbumView(GallerySettingsMixin, DetailView):
     model = Album
 
-    def get_context_data(self, **kwargs):
-        context = super(AlbumView, self).get_context_data(**kwargs)
-        return context
-
     def get_queryset(self):
         album = super(AlbumView, self).get_queryset()
         return album
