@@ -91,3 +91,9 @@
     height: 76.5vh;
     object-fit: contain;
 }
+.exif_icon {
+    width: 1em;
+    vertical-align: sub;
+    padding: 0 0.2em 0 0.5em;
+    filter: brightness(70%);
+}

@@ -32,6 +32,33 @@
 
 {% endblock %}
 
+{% block bar_detail %}
+    {% if image.exif.Make and image.exif.Model %}
+        <img class="exif_icon" src="{% static 'gallery/images/camera.png' %}" title="Camera"/>
+        {{ image.exif.Make|title }} {{ image.exif.Model }}
+    {% endif %}
+    {% if image.exif.LensModel %}
+        <img class="exif_icon" src="{% static 'gallery/images/lens.png' %}" title="Lens"/>
+        {{ image.exif.LensModel }}
+    {% endif %}
+    {% if image.exif.FocalLengthIn35mmFilm %}
+        <img class="exif_icon" src="{% static 'gallery/images/35mm.png' %}" title="Focal Length (35mm)"/>
+        {{ image.exif.FocalLengthIn35mmFilm }}mm
+    {% endif %}
+    {% if image.exif.Aperture %}
+        <img class="exif_icon" src="{% static 'gallery/images/aperture.png' %}" title="Aperture"/>
+        F/{{ image.exif.Aperture }}
+    {% endif %}
+    {% if image.exif.Exposure %}
+        <img class="exif_icon" src="{% static 'gallery/images/exposure.png' %}" title="Exposure"/>
+        {{ image.exif.Exposure }}s
+    {% endif %}
+    {% if image.exif.ISOSpeedRatings %}
+        <img class="exif_icon" src="{% static 'gallery/images/iso.png' %}" title="ISO"/>
+        ISO {{ image.exif.ISOSpeedRatings }}
+    {% endif %}
+{% endblock %}
+
 {% block bar_title %}
     <div id="title">{% if album %} {{ album.title }} - {% endif %} {{ image.title }}</div>
 {% endblock %}
@@ -69,14 +96,5 @@
     {% endfor %}
     </div>
 {% endif %}
-
-<!--
-Camera: {{ image.exif.Make|title }} {{ image.exif.Model }}
-Lens: {{ image.exif.LensModel }}
-Focal Length (35mm): {{ image.exif.FocalLengthIn35mmFilm }}mm
-Aperture: F/{{ image.exif.Aperture }}
-Exposure: {{ image.exif.Exposure }}s
-ISO: {{ image.exif.ISOSpeedRatings }}
--->
 
 {% endblock %}

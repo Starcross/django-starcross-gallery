@@ -25,6 +25,10 @@
     <div id="logo">
         <a href="/gallery"><img src="{% static logo_path %}" style="height: auto; max-width:100%;"></a>
     </div>
+    <div id="detail">
+        {% block bar_detail %}
+        {%  endblock %}
+    </div>
     {% block bar_title %}
     <div id="title">{{ gallery_title }}</div>
     {% endblock %}

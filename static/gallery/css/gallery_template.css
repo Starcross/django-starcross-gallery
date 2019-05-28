@@ -30,7 +30,13 @@ body {
     color: white;
     padding: 0.9em 0 1em 12.8em;
     white-space: nowrap;
+}
 
+#detail {
+    color: #999;
+    float: right;
+    padding-top: 0.8em;
+    padding-right: 1.5em;
 }
 
 #content {
@@ -64,14 +70,18 @@ h2, h3 {
     margin: 0 0 1em 0;
 }
 
+@media only screen and (max-width: 1100px) {
 
-@media only screen and (max-width: 800px) {
-
-	#main_container{
-	    width: revert;
-	}
-
-
+    #detail {
+        display: None;
+    }
 
 }
 
+@media only screen and (max-width: 800px) {
+
+	#main_container {
+	    width: revert;
+	}
+
+}
