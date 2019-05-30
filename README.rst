@@ -113,3 +113,5 @@ Credits
 Starcross Gallery is by Alex Luton <gallery@starcross.eu>, published under GNU LGPLv3
 
 Album icon by Google licensed CC BY 3.0
+Focal Length icon by Ilaria Bernareggi from the Noun Project
+Other image data icons made by Freepik www.flaticon.com licensed by CC 3.0 BY
