@@ -48,8 +48,6 @@ class Image(models.Model):
                 if 'ExposureTime' in exif_data:
                     exif_data['Exposure'] = "{0}/{1}".format(exif_data['ExposureTime'][0],
                                                              exif_data['ExposureTime'][1])
-
-
         return exif_data
 
     @cached_property
@@ -96,7 +94,7 @@ class Album(models.Model):
     highlight = models.OneToOneField(Image,
                                      related_name='album_highlight',
                                      null=True, blank=True,
-                                     on_delete=models.SET_NULL
+                                     on_delete=models.SET_NULL,
                                      )
     order = models.PositiveIntegerField(default=0, blank=False, null=False)
 
@@ -106,6 +104,17 @@ class Album(models.Model):
     @property
     def slug(self):
         return slugify(self.title)
+
+    @property
+    def display_highlight(self):
+        # if there is no highlight but there are images in the album, use the first
+        if not self.highlight and self.images.count():
+            image = self.images.earliest('id')
+        else:
+            image = self.highlight
+        if image:
+            image.title = self.title  # use the album title instead of the highlight title
+        return image
 
     def get_absolute_url(self):
         return reverse('gallery:album_detail', kwargs={'pk': self.pk, 'slug': self.slug})

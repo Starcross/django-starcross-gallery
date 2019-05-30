@@ -1,0 +1,14 @@
+<div class="thumbnail" style="display: block">
+
+    <img id="image_{{ image.pk }}"
+         class="image"
+         alt="{{ image.title }}"
+         src="{{ image.data_thumbnail.url }}">
+
+    <div class="overlay">
+
+        <div class="label preview"> {{ image.title }} </div>
+
+    </div>
+
+</div>

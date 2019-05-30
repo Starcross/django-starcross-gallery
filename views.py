@@ -32,20 +32,24 @@ class ImageView(GallerySettingsMixin, DetailView):
         context['album_images'] = []
         context['apk'] = self.kwargs.get('apk')
 
+        context['next_image'] = None
+        context['previous_image'] = None
+
         # If there is an album in the context, look up the images in it
         if context['apk']:
             context['album'] = Album.objects.get(pk=context['apk'])
             images = context['album'].images.all()
             album_images = sorted(images, key=lambda i: i.date_taken)
             context['album_images'] = album_images
-            context['next_image'] = None
-            context['previous_image'] = None
             for i in range(len(album_images)):
                 if self.object.pk == album_images[i].pk:
                     if i > 0:
                         context['previous_image'] = album_images[i - 1]
                     if i < len(album_images) - 1:
                         context['next_image'] = album_images[i + 1]
+        else:
+            # Look for albums this image appears in
+            context['albums'] = self.object.image_albums.all()
 
         return context
 
@@ -108,15 +112,4 @@ class AlbumList(GallerySettingsMixin, ListView):
     model = Album
     template_name = 'gallery/album_list.html'
 
-    def get_queryset(self):
-        # Return a list of albums containing a highlight even if none is selected
-        album_list = []
-        for album in super(AlbumList, self).get_queryset():
-            # if there is no highlight but there are images in the album, use the first
-            if not album.highlight and album.images.count():
-                first_image = album.images.earliest('id')
-                album.highlight = first_image
-            album_list.append(album)
-            if album.highlight:
-                album.highlight.title = album.title  # override highlight title
-        return album_list
+

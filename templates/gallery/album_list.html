@@ -23,8 +23,8 @@
 {% for album in object_list %}
     <a href="{% url 'gallery:album_detail' album.pk album.slug  %}">
 
-        {% if album.highlight %}
-            {% with album.highlight as image %}
+        {% if album.display_highlight %}
+            {% with album.display_highlight as image %}
                 {% include "gallery/partials/thumbnail.html" %}
             {% endwith %}
         {% else %}

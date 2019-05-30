@@ -47,28 +47,32 @@
     <img id="image_preview" src="{{ image.data_preview.url }}" alt="{{ image.title }}"/>
 </a>
 
+<div id="album_preview">
 {% if album_images %}
-    <div id="album_preview">
+
     {% for image in album_images %}
         <a href="{% url 'gallery:album_image_detail' apk image.pk image.slug %}#image_{{ image.pk }}" style="display: inline-block;">
-            <div class="thumbnail" style="display: block">
-
-                <img id="image_{{ image.pk }}"
-                     class="image"
-                     alt="{{ image.title }}"
-                     src="{{ image.data_thumbnail.url }}">
-
-                <div class="overlay">
-
-                    <div class="label preview"> {{ image.title }} </div>
-
-                </div>
-
-            </div>
+            {% include 'gallery/partials/thumbnail_preview.html' %}
        </a>
     {% endfor %}
-    </div>
+
+{% elif albums %}
+
+    {% for album in albums %}
+
+        {% with album.display_highlight as image %}
+
+        <a href="{% url 'gallery:album_detail' album.pk album.slug  %}" style="display: inline-block;">
+            {% include 'gallery/partials/thumbnail_preview.html' %}
+        </a>
+
+        {% endwith %}
+
+    {% endfor %}
+
+
 {% endif %}
+ </div>
 
 <!--
 Camera: {{ image.exif.Make|title }} {{ image.exif.Model }}
