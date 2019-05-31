@@ -35,7 +35,7 @@
 {% block bar_detail %}
     {% if image.exif.Make and image.exif.Model %}
         <img class="exif_icon" src="{% static 'gallery/images/camera.png' %}" title="Camera"/>
-        {{ image.exif.Make|title }} {{ image.exif.Model }}
+        {{ image.exif.Make|title }}{{ image.exif.Model }}
     {% endif %}
     {% if image.exif.LensModel %}
         <img class="exif_icon" src="{% static 'gallery/images/lens.png' %}" title="Lens"/>
@@ -64,11 +64,6 @@
 {% endblock %}
 
 {% block content %}
-
-<!--
-<h3 id="album_subheading">{{ album.title }}</h3>
-<h2>{{ image.title }}</h2>
--->
 
 <a href="{{ image.data.url }}">
     <img id="image_preview" src="{{ image.data_preview.url }}" alt="{{ image.title }}"/>
