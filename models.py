@@ -43,6 +43,10 @@ class Image(models.Model):
                 for tag, value in info.items():
                     decoded = TAGS.get(tag, tag)
                     exif_data[decoded] = value
+                # Process some data for easy rendering in template
+                exif_data['Camera'] = exif_data.get('Model', '')
+                if exif_data.get('Make', '') not in exif_data['Camera']:  # Work around for Canon
+                    exif_data['Camera'] = "{0} {1}".format(exif_data['Make'].title(), exif_data['Model'])
                 if 'FNumber' in exif_data:
                     exif_data['Aperture'] = str(exif_data['FNumber'][0] / exif_data['FNumber'][1])
                 if 'ExposureTime' in exif_data:

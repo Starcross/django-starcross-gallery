@@ -16,7 +16,7 @@ class ImageTests(TestCase):
 
     image_filename = 'test_image.jpg'
 
-    exif_data = ['Sony DSLR-A700', 'F/11.0', '1/500s', '16mm', 'ISO 200']
+    exif_data = ['Sony  DSLR-A700', 'F/11.0', '1/500s', '16mm', 'ISO 200']
 
     def setUp(self):
 

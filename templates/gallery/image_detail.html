@@ -33,9 +33,9 @@
 {% endblock %}
 
 {% block bar_detail %}
-    {% if image.exif.Make and image.exif.Model %}
+    {% if image.exif.Camera %}
         <img class="exif_icon" src="{% static 'gallery/images/camera.png' %}" title="Camera"/>
-        {{ image.exif.Make|title }}{{ image.exif.Model }}
+        {{ image.exif.Camera }}
     {% endif %}
     {% if image.exif.LensModel %}
         <img class="exif_icon" src="{% static 'gallery/images/lens.png' %}" title="Lens"/>
