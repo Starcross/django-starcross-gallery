@@ -11,11 +11,11 @@ requirements = ['django-imagekit==4.0.2', 'Pillow==5.0.0']
 
 setup(
     name='django-starcross-gallery',
-    version='1.0.4',
+    version='1.0.5',
     packages=find_packages(),
     include_package_data=True,
     license='GNU LGPLv3',
-    description='A streamlined Django gallery app.',
+    description='A streamlined Django gallery app with justified layout, infinite scrolling, and drag & drop uploading',
     long_description=README,
     url='http://starcross.eu',
     author='Alex Luton',
