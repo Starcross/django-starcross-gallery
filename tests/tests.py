@@ -22,7 +22,7 @@ class ImageTests(TestCase):
 
         # Find the local directory and add the test media location
         TEST_ROOT = os.path.abspath(os.path.dirname(__file__))
-        settings.MEDIA_ROOT = os.path.join(TEST_ROOT, 'tests/media/')
+        settings.MEDIA_ROOT = os.path.join(TEST_ROOT, 'media/')
 
         # Create test album with test image inside
         self.album = Album.objects.create(title=self.test_album_title)

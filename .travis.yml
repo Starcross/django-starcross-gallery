@@ -4,3 +4,4 @@ python:
 install:
   - ./build.sh
   - pip install --find-links ./django-starcross-gallery/dist django-starcross-gallery
+script: python runtests.py
