@@ -1,10 +1,18 @@
-=================
-Starcross Gallery
-=================
 .. image:: https://img.shields.io/pypi/v/django-starcross-gallery.svg
     :target: https://pypi.python.org/pypi/django-starcross-gallery/
     :alt: PyPI version
 
+.. image:: https://travis-ci.org/Starcross/django-starcross-gallery.svg?branch=master
+    :target: https://travis-ci.org/Starcross/django-starcross-gallery
+    :alt: Build Status
+
+.. image:: https://coveralls.io/repos/github/Starcross/django-starcross-gallery/badge.svg?branch=master
+    :target: https://coveralls.io/github/Starcross/django-starcross-gallery?branch=master
+    :alt: Code coverage
+
+=================
+Starcross Gallery
+=================
 
 Starcross Gallery is a streamlined photo gallery Django app. Key features are:
 
