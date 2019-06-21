@@ -2,6 +2,8 @@ from django.test import TestCase
 from django.urls import reverse
 from django.conf import settings
 from django.utils.datastructures import MultiValueDict
+from django.contrib.auth.models import User
+
 import os
 from datetime import datetime
 
@@ -18,6 +20,9 @@ class ImageTests(TestCase):
 
     exif_data = ['Sony  DSLR-A700', 'F/11.0', '1/500s', '16mm', 'ISO 200']
 
+    username = 'admin'
+    password = 'yj4KlZ6N'
+
     def setUp(self):
 
         # Find the local directory and add the test media location
@@ -28,6 +33,8 @@ class ImageTests(TestCase):
         self.album = Album.objects.create(title=self.test_album_title)
         self.image = self.album.images.create(title=self.test_image_title,
                                               data=self.image_filename)
+
+        User.objects.create_superuser(self.username, 'user@email.com', self.password)
 
     # Test global image list
     def test_image_list(self):
@@ -78,12 +85,23 @@ class ImageTests(TestCase):
                          "Incorrect date in image object")
         self.assertEqual(image.slug, "test-image", "Incorrect slug in image object")
 
-    def test_image_create_form(self):
+    def test_image_form_validation(self):
         data = {'apk': self.album.pk}
         image_path = os.path.join(settings.MEDIA_ROOT, self.image_filename)
         image_files = MultiValueDict({'data': [image_path]})
         form = ImageCreateForm(data, files=image_files)
         form.clean()
 
+    def test_image_creation(self):
+        album_size = len(self.album.images.all())
+        image_path = os.path.join(settings.MEDIA_ROOT, self.image_filename)
+        self.client.login(username=self.username, password=self.password)
+
+        with open(image_path, 'rb') as image_file:
+            data = {'apk': self.album.pk,
+                    'data': image_file}
+            response = self.client.post(reverse('gallery:image_upload'), data=data)
+        self.assertRedirects(response, reverse('gallery:image_list'), msg_prefix="Error uploading image")
+        self.assertEqual(album_size+1, len(self.album.images.all()), "Error uploading image to album")
 
 
