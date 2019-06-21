@@ -102,6 +102,8 @@ class ImageTests(TestCase):
                     'data': image_file}
             response = self.client.post(reverse('gallery:image_upload'), data=data)
         self.assertRedirects(response, reverse('gallery:image_list'), msg_prefix="Error uploading image")
-        self.assertEqual(album_size+1, len(self.album.images.all()), "Error uploading image to album")
+        self.assertEqual(album_size + 1, len(self.album.images.all()), "Error uploading image to album")
+        self.album.images.last().delete()
+        self.assertEqual(album_size, len(self.album.images.all()), "Error removing image")
 
 
