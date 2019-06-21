@@ -77,6 +77,14 @@ class ImageTests(TestCase):
         response = self.client.get(reverse('gallery:album_list'))
         self.assertEqual(response.status_code, 200, "Error displaying empty album")
 
+    # Test albums contain images
+    def test_album_view(self):
+
+        response = self.client.get(reverse('gallery:album_detail',
+                                   kwargs={'pk': self.album.pk, 'slug': self.album.title}))
+        self.assertEqual(response.status_code, 200, "Error testing album view")
+        self.assertContains(response, self.image.title, count=2, msg_prefix="Error testing image in album view")
+
     def test_image_properties(self):
 
         image = Image.objects.all()[0]
@@ -92,10 +100,13 @@ class ImageTests(TestCase):
         form = ImageCreateForm(data, files=image_files)
         form.clean()
 
-    def test_image_creation(self):
+    def test_image_upload(self):
         album_size = len(self.album.images.all())
         image_path = os.path.join(settings.MEDIA_ROOT, self.image_filename)
         self.client.login(username=self.username, password=self.password)
+
+        response = self.client.post(reverse('gallery:image_upload'))
+        self.assertEqual(response.status_code, 200, "Error testing invalid image upload")
 
         with open(image_path, 'rb') as image_file:
             data = {'apk': self.album.pk,
@@ -106,4 +117,4 @@ class ImageTests(TestCase):
         self.album.images.last().delete()
         self.assertEqual(album_size, len(self.album.images.all()), "Error removing image")
 
-
+        self.client.logout()
