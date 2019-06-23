@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.conf import settings
 from django.utils.datastructures import MultiValueDict
 from django.contrib.auth.models import User
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 import os
 from datetime import datetime
@@ -109,9 +110,16 @@ class ImageTests(TestCase):
         image_path = os.path.join(settings.MEDIA_ROOT, self.image_filenames[0])
         self.client.login(username=self.username, password=self.password)
 
+        # No data
         response = self.client.post(reverse('gallery:image_upload'))
-        self.assertEqual(response.status_code, 200, "Error testing invalid image upload")
+        self.assertEqual(response.status_code, 200, "Error testing empty image upload")
 
+        # Invalid file
+        data = {'data': SimpleUploadedFile('text.txt', b'text')}
+        response = self.client.post(reverse('gallery:image_upload'), data=data)
+        self.assertContains(response, "Unable to add invalid images", msg_prefix="Error testing invalid image data")
+
+        # Valid data
         with open(image_path, 'rb') as image_file:
             data = {'apk': self.album.pk,
                     'data': image_file}
