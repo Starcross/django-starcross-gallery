@@ -24,11 +24,12 @@ body {
 #logo {
     width: 12em;
     float: left;
+    padding-right: 1em;
 }
 
 #title {
     color: white;
-    padding: 0.9em 0 1em 12.8em;
+    padding: 0.9em 0 1em 1em;
     white-space: nowrap;
 }
 

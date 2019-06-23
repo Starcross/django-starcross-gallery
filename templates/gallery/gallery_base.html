@@ -22,9 +22,11 @@
 
 <div id="top_bar">
 
-    <div id="logo">
-        <a href="/gallery"><img src="{% static logo_path %}" style="height: auto; max-width:100%;"></a>
-    </div>
+    {% if logo_path %}
+        <div id="logo">
+            <a href="/gallery"><img src="{% static logo_path %}" style="height: auto; max-width:100%;"></a>
+        </div>
+    {%  endif %}
     <div id="detail">
         {% block bar_detail %}
         {%  endblock %}

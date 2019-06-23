@@ -69,7 +69,7 @@ Override these default settings by adding to your settings.py
 
 **GALLERY_LOGO_PATH** -- Default: "gallery/images/starcross.png"
 
-Path to the header logo within the static directory
+Path to the header logo within the static directory. If you do not wish to use a logo, override with a blank string
 
 **GALLERY_TITLE** -- Default: "Gallery"
 
@@ -81,7 +81,7 @@ Information text in the footer
 
 **GALLERY_FOOTER_EMAIL** -- Default: "gallery@starcross.eu"
 
-Contact email address in the footer
+Contact email address in the footer. Override with a blank string to hide
 
 **GALLERY_THUMBNAIL_SIZE** -- Default: 200
 
