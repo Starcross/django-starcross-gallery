@@ -65,15 +65,19 @@ function resize_row(images, factor) {
 
     for (var i=0; i < images.length; i++) {
 
+        var overlay = images[i].nextElementSibling;
         var width = ((images[i].naturalWidth / hdpi_factor) * factor);
         images[i].style.width = width + "px";
         var height = ((images[i].naturalHeight / hdpi_factor) * factor);
         images[i].style.height = height + "px";
-        // Add a margin if this is not the last image
+        // Add a margin to image and overlay if this is not the last image
         if (i < (images.length - 1)) {
-            images[i].style.marginRight = image_margin + 'px';
+            images[i].classList.add('image_spacer');
+            overlay.classList.add('image_spacer');
+
         } else {
-            images[i].style.marginRight = '0';
+            images[i].classList.remove('image_spacer');
+            overlay.classList.remove('image_spacer');
         }
     }
 }

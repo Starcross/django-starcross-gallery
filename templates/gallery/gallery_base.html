@@ -12,7 +12,12 @@
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'gallery/css/gallery_template.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'gallery/css/gallery.css' %}">
-
+    <link rel="stylesheet" type="text/css" href="{% static 'gallery/css/themes/black.css' %}">
+    <style>
+        .image_spacer {
+            margin-right: {{ image_margin }}px;
+        }
+    </style>
     {% block header %}
     {% endblock %}
 

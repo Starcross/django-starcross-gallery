@@ -2,13 +2,12 @@
 <div class="thumbnail">
 
         <img id="image_{{ image.pk }}"
-             class="image"
+             class="image image_spacer"
              alt="{{ image.title }}"
              data-src="{{ image.data_thumbnail.url }}"
-             style="width: {% widthratio image.data_thumbnail.width 2 1 %}px;
-                    margin-right: {{ image_margin }}px"/>
+             style="width: {% widthratio image.data_thumbnail.width 2 1 %}px";/>
 
-        <div class="overlay">
+        <div class="overlay image_spacer">
 
             <div class="label"> {{ image.title }} </div>
 

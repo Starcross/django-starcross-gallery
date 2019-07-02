@@ -1,0 +1,42 @@
+body {
+    background-color: #eee;
+    color: #222;
+}
+
+#top_bar {
+    background-color: #444;
+}
+
+#title {
+    color: #ccc;
+}
+
+#detail {
+    color: #777;
+}
+
+#footer {
+    background-color: #ddd;
+    color: #444;
+}
+
+#album_preview {
+    background-color: #ccc;
+}
+
+a {
+    color: blue;
+}
+
+.exif_icon {
+    filter: brightness(50%);
+}
+
+.empty {
+    border-color: #ccc;
+}
+
+#empty_placeholder {
+    background-color: #ddd;
+    border-color: #ccc;
+}
