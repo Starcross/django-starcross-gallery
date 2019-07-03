@@ -2,11 +2,12 @@ body {
     background-color: #383838;
     color: #eee;
 }
+
 #top_bar {
     background-color: #222;
 }
 
-#title {
+#title, #title a {
     color: white;
 }
 

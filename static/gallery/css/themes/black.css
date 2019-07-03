@@ -7,9 +7,10 @@ body {
     background-color: #111;
 }
 
-#title {
+#title, #title a {
     color: white;
 }
+
 
 #detail {
     color: #999;

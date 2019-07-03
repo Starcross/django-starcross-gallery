@@ -60,7 +60,15 @@
 {% endblock %}
 
 {% block bar_title %}
-    <div id="title">{% if album %} {{ album.title }} - {% endif %} {{ image.title }}</div>
+    <div id="title">
+        {% if album %}
+            <a href="{% url 'gallery:album_detail' apk album.slug %}">
+            {{ album.title }}
+            </a>
+            -
+        {% endif %}
+        {{ image.title }}
+    </div>
 {% endblock %}
 
 {% block content %}
