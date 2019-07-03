@@ -22,3 +22,5 @@ GALLERY_RESIZE_QUALITY = getattr(settings, 'GALLERY_RESIZE_QUALITY', 80)
 GALLERY_HDPI_FACTOR = getattr(settings, 'GALLERY_HDPI_FACTOR', 2)
 # Image margin as float
 GALLERY_IMAGE_MARGIN = getattr(settings, 'GALLERY_IMAGE_MARGIN', 6.0)
+# CSS Color Styling
+GALLERY_THEME_COLOR = getattr(settings, 'GALLERY_THEME_COLOR', "black")

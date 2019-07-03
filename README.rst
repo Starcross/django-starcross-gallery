@@ -83,6 +83,10 @@ Information text in the footer
 
 Contact email address in the footer. Override with a blank string to hide
 
+**GALLERY_THEME_COLOR** -- Default "black"
+
+Use a predefined theme color scheme. Options are black, white, or grey
+
 **GALLERY_THUMBNAIL_SIZE** -- Default: 200
 
 The target thumbnail height in px. This will vary slightly in rendering due to the justified layout

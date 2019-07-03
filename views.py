@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.staticfiles.templatetags.staticfiles import static
 from gallery.models import Image, Album
 from gallery.forms import ImageCreateForm
 from gallery import settings
@@ -20,6 +21,7 @@ class GallerySettingsMixin(object):
         context['image_margin'] = settings.GALLERY_IMAGE_MARGIN
         context['footer_info'] = settings.GALLERY_FOOTER_INFO
         context['footer_email'] = settings.GALLERY_FOOTER_EMAIL
+        context['theme_css_path'] = static('gallery/css/themes/{}.css'.format(settings.GALLERY_THEME_COLOR))
 
         return context
 

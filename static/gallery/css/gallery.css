@@ -34,25 +34,22 @@
     image-rendering: -moz-crisp-edges;
 }
 .empty {
-    width: 4em;
-    padding: 8em;
-    border: 2px solid #333;
+    border: 2px solid;
 }
 
 #empty_placeholder {
-    background: rgba(64,64,64, 0.3);
-    border: 1px solid #666;
+    border: 1px solid;
     height: 10em;
     /* Centre */
     line-height: 10em;
     text-align: center;
     vertical-align: middle;
-    }
+}
 
 /* Image thumbnail overlay to add background to title */
 .overlay {
     position: absolute;
-    top: 0; bottom: 4px; left: 0; right: 0;
+    top: 0; bottom: 3px; left: 0; right: 0;
     opacity: 0;
     transition: all .15s ease-in-out;
 }
@@ -94,5 +91,4 @@
     width: 1em;
     vertical-align: sub;
     padding: 0 0.2em 0 0.5em;
-    filter: brightness(70%);
 }

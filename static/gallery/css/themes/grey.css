@@ -1,10 +1,9 @@
 body {
-    background-color: #222;
+    background-color: #383838;
     color: #eee;
 }
-
 #top_bar {
-    background-color: #111;
+    background-color: #222;
 }
 
 #title {
@@ -16,7 +15,7 @@ body {
 }
 
 #footer {
-    background-color: #181818;
+    background-color: #222;
     color: #ddd;
 }
 
@@ -25,11 +24,11 @@ a {
 }
 
 .exif_icon {
-    filter: brightness(70%);
+    filter: brightness(60%);
 }
 
 .empty {
-    border-color: #333;
+    border-color: #666;
 }
 
 #empty_placeholder {

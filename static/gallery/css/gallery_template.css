@@ -6,8 +6,6 @@ body {
     position: relative;
     min-height: 100%;
     font-family: 'Lato', sans-serif;
-    background-color: #222;
-    color: #eee;
     margin: 0;
 }
 
@@ -15,7 +13,6 @@ body {
     width: 100%;
     height: 2.5em;
     padding: 0.5em;
-    background-color: #111;
     position: fixed;
     z-index: 1;
 }
@@ -27,13 +24,11 @@ body {
 }
 
 #title {
-    color: white;
     padding: 0.9em 0 1em 1em;
     white-space: nowrap;
 }
 
 #detail {
-    color: #999;
     float: right;
     padding-top: 0.8em;
     padding-right: 1.5em;
@@ -53,8 +48,6 @@ body {
     left: 0; right: 0; bottom: 0;
     padding: 1em 1em 1em 2em;
     margin-top: 1em;
-    background-color: #181818;
-    color: #ddd;
 }
 
 #album_subheading {
@@ -62,7 +55,6 @@ body {
 }
 
 a {
-    color: #888;
     text-decoration: none;
 }
 
