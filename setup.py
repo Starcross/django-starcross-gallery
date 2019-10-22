@@ -7,7 +7,7 @@ with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
-requirements = ['django-imagekit==4.0.2', 'Pillow==5.0.0']
+requirements = ['django-imagekit==4.0.2', 'Pillow==6.2.0']
 
 setup(
     name='django-starcross-gallery',
