@@ -52,6 +52,7 @@ class Image(models.Model):
                 if 'ExposureTime' in exif_data:
                     exif_data['Exposure'] = "{0}/{1}".format(exif_data['ExposureTime'][0],
                                                              exif_data['ExposureTime'][1])
+            img.close()
         return exif_data
 
     @cached_property
