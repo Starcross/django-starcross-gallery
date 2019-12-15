@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.templatetags.static import static
 from gallery.models import Image, Album
 from gallery.forms import ImageCreateForm
 from gallery import settings
