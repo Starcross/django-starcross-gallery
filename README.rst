@@ -21,7 +21,7 @@ Starcross Gallery is a streamlined photo gallery Django app. Key features are:
 * Easy drag and drop upload
 * Straightforward object model - All metadata is pulled from the file including title and exif data
 
-Demo at http://starcross.eu/gallery
+Demo at https://starcross.dev/gallery
 
 Quick start
 -----------
@@ -79,7 +79,7 @@ The title of the Gallery shown in the header on the main page and image feed
 
 Information text in the footer
 
-**GALLERY_FOOTER_EMAIL** -- Default: "gallery@starcross.eu"
+**GALLERY_FOOTER_EMAIL** -- Default: "gallery@starcross.dev"
 
 Contact email address in the footer. Override with a blank string to hide
 
@@ -126,7 +126,7 @@ If you are using Firefox on Linux, there can be a delay before the upload box fl
 Credits
 -------
 
-Starcross Gallery is by Alex Luton <gallery@starcross.eu>, published under GNU LGPLv3
+Starcross Gallery is by Alex Luton <gallery@starcross.dev>, published under GNU LGPLv3
 
 
 Album icon by Google licensed CC BY 3.0
