@@ -17,9 +17,9 @@ setup(
     license='GNU LGPLv3',
     description='A streamlined Django gallery app with justified layout, infinite scrolling, and drag & drop uploading',
     long_description=README,
-    url='http://starcross.eu',
+    url='http://starcross.dev',
     author='Alex Luton',
-    author_email='gallery@starcross.eu',
+    author_email='gallery@starcross.dev',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',

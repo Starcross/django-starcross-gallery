@@ -11,7 +11,7 @@ GALLERY_TITLE = getattr(settings, 'GALLERY_TITLE', "Gallery")
 # Info text in footer
 GALLERY_FOOTER_INFO = getattr(settings, 'GALLERY_FOOTER_INFO', "Starcross Gallery")
 # Gallery footer email
-GALLERY_FOOTER_EMAIL = getattr(settings, 'GALLERY_FOOTER_EMAIL', "gallery@starcross.eu")
+GALLERY_FOOTER_EMAIL = getattr(settings, 'GALLERY_FOOTER_EMAIL', "gallery@starcross.dev")
 # Target height for thumbnail display
 GALLERY_THUMBNAIL_SIZE = getattr(settings, 'GALLERY_THUMBNAIL_SIZE', 250)
 # Large preview in modal popup, enough to fill a typical browser window
