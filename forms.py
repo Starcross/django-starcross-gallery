@@ -20,6 +20,7 @@ class ImageCreateForm(forms.Form):
             try:
                 i = Image.open(img)
                 i.verify()
+                i.close()
             except (IOError, SyntaxError):
                 invalid_images += [img]
         if invalid_images:
