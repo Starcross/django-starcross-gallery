@@ -7,6 +7,8 @@
 
 {% block header %}
 
+    <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{% url 'gallery:image_detail' image.pk image.slug %}">
+
     <script type="text/javascript">
         {% if previous_image %}
             previous_image_url = '{% url 'gallery:album_image_detail' apk previous_image.pk previous_image.slug %}#image_{{ previous_image.pk }}';
