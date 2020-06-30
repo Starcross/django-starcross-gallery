@@ -48,10 +48,10 @@ class Image(models.Model):
                 if exif_data.get('Make', '') not in exif_data['Camera']:  # Work around for Canon
                     exif_data['Camera'] = "{0} {1}".format(exif_data['Make'].title(), exif_data['Model'])
                 if 'FNumber' in exif_data:
-                    exif_data['Aperture'] = str(exif_data['FNumber'][0] / exif_data['FNumber'][1])
+                    exif_data['Aperture'] = str(exif_data['FNumber'].numerator / exif_data['FNumber'].denominator)
                 if 'ExposureTime' in exif_data:
-                    exif_data['Exposure'] = "{0}/{1}".format(exif_data['ExposureTime'][0],
-                                                             exif_data['ExposureTime'][1])
+                    exif_data['Exposure'] = "{0}/{1}".format(exif_data['ExposureTime'].numerator,
+                                                             exif_data['ExposureTime'].denominator)
             img.close()
         return exif_data
 

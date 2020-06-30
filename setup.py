@@ -7,17 +7,17 @@ with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
-requirements = ['django-imagekit==4.0.2', 'Pillow==6.2.1']
+requirements = ['django-imagekit==4.0.2', 'Pillow==7.2.0']
 
 setup(
     name='django-starcross-gallery',
-    version='1.0.7',
+    version='1.0.8',
     packages=find_packages(),
     include_package_data=True,
     license='GNU LGPLv3',
     description='A streamlined Django gallery app with justified layout, infinite scrolling, and drag & drop uploading',
     long_description=README,
-    url='http://starcross.dev',
+    url='https://starcross.dev',
     author='Alex Luton',
     author_email='gallery@starcross.dev',
     classifiers=[
