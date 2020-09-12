@@ -1,5 +1,5 @@
 from django.db import models
-from django.template.defaultfilters import slugify
+from django.utils.text import slugify
 from django.urls import reverse
 from django.utils.functional import cached_property
 from imagekit.models import ImageSpecField
@@ -29,7 +29,7 @@ class Image(models.Model):
 
     @cached_property
     def slug(self):
-        return slugify(self.title)
+        return slugify(self.title, allow_unicode=True)
 
     @cached_property
     def exif(self):
@@ -108,7 +108,7 @@ class Album(models.Model):
 
     @property
     def slug(self):
-        return slugify(self.title)
+        return slugify(self.title, allow_unicode=True)
 
     @property
     def display_highlight(self):

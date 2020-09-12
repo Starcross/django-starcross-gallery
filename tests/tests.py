@@ -17,8 +17,9 @@ class ImageTests(TestCase):
     test_image_title = "Antibes Marina"
     test_slug = "antibes-marina"
     test_album_title = "My First Album"
+    test_image_title_unicode = "Паровоз"
 
-    image_filenames = ['antibes_marina.jpg', 'castle_combe.jpg']
+    image_filenames = ['antibes_marina.jpg', 'castle_combe.jpg', 'паровоз.jpg']
 
     exif_data = ['Sony  DSLR-A700', 'F/11.0', '1/500s', '16mm', 'ISO 200']
 
@@ -37,6 +38,7 @@ class ImageTests(TestCase):
         for filename in self.image_filenames:
             self.images += [self.album.images.create(data=filename)]
         self.image = self.images[0]  # Set main set image
+        self.unicode_image = self.images[2]  # Set unicode image
 
         User.objects.create_superuser(self.username, 'user@email.com', self.password)
 
@@ -44,19 +46,22 @@ class ImageTests(TestCase):
     def test_image_list(self):
 
         response = self.client.get(reverse('gallery:image_list'))
-        self.assertContains(response, self.test_image_title, msg_prefix="Image data missing from image feed")
+        self.assertContains(response, self.test_image_title, msg_prefix="Image title missing from image feed")
+        self.assertContains(response, self.test_image_title_unicode,
+                            msg_prefix="Unicode image title missing from image feed")
 
     # Test image preview
     def test_image_detail(self):
 
         response = self.client.get(reverse('gallery:image_detail',
                                            kwargs={'pk': self.image.pk, 'slug': self.image.title}))
-        self.assertContains(response, self.test_image_title, msg_prefix="Image preview does not contain image data")
+        self.assertContains(response, self.test_image_title, msg_prefix="Image preview does not contain image title")
         # Check exif data present
         for data in self.exif_data:
             self.assertContains(response, data, msg_prefix="Exif data missing")
         # Check image's album appears in this context
-        self.assertContains(response, self.test_album_title, count=2, msg_prefix="Image preview does not related album")
+        self.assertContains(response, self.test_album_title, count=2,
+                            msg_prefix="Image preview does not contain related album")
 
     # Test image preview with album context. Should contain previews to any other images in the same album
     def test_album_image_detail(self):
