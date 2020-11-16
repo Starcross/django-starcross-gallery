@@ -18,9 +18,8 @@ class ImageCreateForm(forms.Form):
         invalid_images = []
         for img in image_files:
             try:
-                i = Image.open(img)
-                i.verify()
-                i.close()
+                with Image.open(img) as i:
+                    i.verify()
             except (IOError, SyntaxError):
                 invalid_images += [img]
         if invalid_images:
