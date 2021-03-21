@@ -41,13 +41,13 @@ Quick start
 
     path('gallery/', include('gallery.urls')),
 
-4. Ensure a `MEDIA directory <https://docs.djangoproject.com/en/2.1/topics/files/>`_ is set up
+4. Ensure a `MEDIA directory <https://docs.djangoproject.com/en/3.1/topics/files/>`_ is set up
 
 5. Run ``python manage.py makemigrations gallery``, then ``python manage.py migrate gallery`` to create the models.
 
-6. Start the development server and create any albums you required in http://127.0.0.1:8000/admin/. It's not necessary to create albums if you prefer just a single image feed
+6. Start the development server and create albums from the admin site http://127.0.0.1:8000/admin/. It's not necessary to create albums if you prefer just a single image feed
 
-7. Visit http://127.0.0.1:8000/gallery/ to access the gallery. Albums can be added through the django admin interface (/admin)
+7. Visit http://127.0.0.1:8000/gallery/ to access the gallery.
 
 
 Instructions
@@ -55,7 +55,7 @@ Instructions
 
 Starcross gallery groups Images into Albums, which enables your to organise your presentation. Add albums via the django admin interface, and drag multiple images into your empty albums in the album page itself. It's also possible to use the gallery as a flat image feed only, which is a view published at <gallery base>/images. All images will be displayed here in descending date order. You can add images here directly as well, but they will not be added to an album.
 
-The gallery was designed with simplicity of Image management in mind, so titles are derived from the file name. You only need to add albums and then drag your collection into place. The idea is to avoid the need to manage your collection both on the website and on your disk. If you wish to reorganise, you can delete and easily re-upload
+The gallery was designed with simplicity of image management in mind, so titles are derived from the file name. You only need to add albums and then drag your collection into place. The idea is to avoid the need to manage your collection both on the website and on disk. If you wish to reorganise, you can delete and easily re-upload
 
 Images in albums are ordered by the date the photo was taken if available in the exif data, or failing that the modification date
 
@@ -105,7 +105,7 @@ The actual preview and thumbnail sizes are multiplied by this number, but render
 
 **GALLERY_IMAGE_MARGIN** -- Default: 6
 
-Margin between thumbnails in px. Some may prefer a less condensed look, so increase this value if your template requires it
+Margin between thumbnails in px. This can create a more or less condensed look
 
 
 Troubleshooting

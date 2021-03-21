@@ -113,5 +113,3 @@ class AlbumView(GallerySettingsMixin, DetailView):
 class AlbumList(GallerySettingsMixin, ListView):
     model = Album
     template_name = 'gallery/album_list.html'
-
-

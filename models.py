@@ -15,16 +15,21 @@ import os
 class Image(models.Model):
 
     data = models.ImageField(upload_to='images')
-    data_thumbnail = ImageSpecField(source='data',
-                                    processors=[ResizeToFit(
-                                        height=settings.GALLERY_THUMBNAIL_SIZE * settings.GALLERY_HDPI_FACTOR)],
-                                    format='JPEG',
-                                    options={'quality': settings.GALLERY_RESIZE_QUALITY})
-    data_preview = ImageSpecField(source='data',
-                                  processors=[ResizeToFit(width=settings.GALLERY_PREVIEW_SIZE * settings.GALLERY_HDPI_FACTOR,
-                                                          height=settings.GALLERY_PREVIEW_SIZE * settings.GALLERY_HDPI_FACTOR)],
-                                  format='JPEG',
-                                  options={'quality': settings.GALLERY_RESIZE_QUALITY})
+    data_thumbnail = ImageSpecField(
+        source='data',
+        processors=[ResizeToFit(height=settings.GALLERY_THUMBNAIL_SIZE * settings.GALLERY_HDPI_FACTOR)],
+        format='JPEG',
+        options={'quality': settings.GALLERY_RESIZE_QUALITY}
+    )
+    data_preview = ImageSpecField(
+        source='data',
+        processors=[ResizeToFit(
+            width=settings.GALLERY_PREVIEW_SIZE * settings.GALLERY_HDPI_FACTOR,
+            height=settings.GALLERY_PREVIEW_SIZE * settings.GALLERY_HDPI_FACTOR
+        )],
+        format='JPEG',
+        options={'quality': settings.GALLERY_RESIZE_QUALITY}
+    )
     date_uploaded = models.DateTimeField(auto_now_add=True)
 
     @cached_property
@@ -96,11 +101,12 @@ class Image(models.Model):
 class Album(models.Model):
     title = models.CharField(max_length=250)
     images = models.ManyToManyField(Image, blank=True, related_name='image_albums')
-    highlight = models.OneToOneField(Image,
-                                     related_name='album_highlight',
-                                     null=True, blank=True,
-                                     on_delete=models.SET_NULL,
-                                     )
+    highlight = models.OneToOneField(
+        Image,
+        related_name='album_highlight',
+        null=True, blank=True,
+        on_delete=models.SET_NULL,
+    )
     order = models.PositiveIntegerField(default=0, blank=False, null=False)
 
     class Meta(object):
