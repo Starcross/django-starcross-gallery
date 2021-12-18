@@ -42,7 +42,7 @@ class Image(models.Model):
         self.data.open()
         with pImage.open(self.data) as img:
             if hasattr(img, '_getexif'):
-                info = img.getexif()
+                info = img._getexif()
                 if not info:
                     return {}
                 for tag, value in info.items():

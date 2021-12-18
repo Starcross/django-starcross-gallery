@@ -13,6 +13,7 @@ from gallery.forms import ImageCreateForm
 
 
 class ImageTests(TestCase):
+    """ Test case for starcross-django-gallery """
 
     test_image_title = "Antibes Marina"
     test_slug = "antibes-marina"
@@ -42,16 +43,16 @@ class ImageTests(TestCase):
 
         User.objects.create_superuser(self.username, 'user@email.com', self.password)
 
-    # Test global image list
     def test_image_list(self):
+        """ Test global image list """
 
         response = self.client.get(reverse('gallery:image_list'))
         self.assertContains(response, self.test_image_title, msg_prefix="Image title missing from image feed")
         self.assertContains(response, self.test_image_title_unicode,
                             msg_prefix="Unicode image title missing from image feed")
 
-    # Test image preview
     def test_image_detail(self):
+        """ Test image preview """
 
         response = self.client.get(reverse('gallery:image_detail',
                                            kwargs={'pk': self.image.pk, 'slug': self.image.title}))
@@ -63,32 +64,31 @@ class ImageTests(TestCase):
         self.assertContains(response, self.test_album_title, count=2,
                             msg_prefix="Image preview does not contain related album")
 
-    # Test image preview with album context. Should contain previews to any other images in the same album
     def test_album_image_detail(self):
+        """ Test image preview with album context. Should contain previews to any other images in the same album """
         response = self.client.get(reverse('gallery:album_image_detail',
                                            kwargs={'pk': self.image.pk, 'slug': self.image.title,
                                                    'apk': self.album.pk}))
         self.assertContains(response, self.test_album_title, count=2, msg_prefix="Image preview incorrect")
 
-    # Test album and auto highlight
     def test_album_list(self):
-
+        """ Test album and auto highlight """
         response = self.client.get(reverse('gallery:album_list'))
 
         self.assertContains(response, self.test_album_title, msg_prefix="Album data missing from album list")
         image = self.album.images.earliest('id')
         self.assertContains(response, image.data_thumbnail.url, msg_prefix="Album list missing album url")
 
-    # Check empty albums do not cause errors
     def test_empty_album(self):
+        """ Check empty albums do not cause errors """
 
         self.empty_album = Album.objects.create(title='Empty album')
         response = self.client.get(reverse('gallery:album_list'))
         self.assertEqual(response.status_code, 200, "Error displaying empty album")
         Album.objects.all().last().delete()
 
-    # Test albums contain images
     def test_album_view(self):
+        """ Test albums contain images """
 
         response = self.client.get(reverse('gallery:album_detail',
                                    kwargs={'pk': self.album.pk, 'slug': self.album.title}))
