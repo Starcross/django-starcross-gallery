@@ -32,3 +32,4 @@ class AlbumAdmin(SortableAdminMixin, admin.ModelAdmin):
 admin.site.register(Image, ImageAdmin)
 admin.site.register(Album, AlbumAdmin)
 
+
