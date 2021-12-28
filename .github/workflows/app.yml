@@ -23,7 +23,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         ./build.sh
-        pip install --find-links ./django-starcross-gallery/dist django-starcross-gallery
+        pip install --find-links --no-index ./django-starcross-gallery django-starcross-gallery
         pip install coveralls
     - name: Test wih coverage 
       run: |
