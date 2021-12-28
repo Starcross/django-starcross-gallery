@@ -25,10 +25,8 @@ jobs:
         ./build.sh
         pip install --find-links --no-index ./django-starcross-gallery django-starcross-gallery
         pip install coveralls
-    - name: Test wih coverage 
+    - name: Test with coverage 
       run: |
         coverage run --source=gallery runtests.py
-    - name: Coveralls
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        coveralls
+
