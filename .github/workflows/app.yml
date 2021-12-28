@@ -22,7 +22,7 @@ jobs:
     - name: Build and install package
       run: |
         python -m pip install --upgrade pip
-        /build.sh
+        ./build.sh
         pip install --find-links ./django-starcross-gallery/dist django-starcross-gallery
         pip install coveralls
     - name: Test wih coverage 
