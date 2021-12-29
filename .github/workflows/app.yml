@@ -1,6 +1,6 @@
 # Workflow to install Python dependencies, run tests and coverage
 
-name: Django Starcross Gallery Test
+name: Build
 
 on:
   push:
