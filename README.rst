@@ -2,8 +2,8 @@
     :target: https://pypi.python.org/pypi/django-starcross-gallery/
     :alt: PyPI version
 
-.. image:: https://travis-ci.org/Starcross/django-starcross-gallery.svg?branch=master
-    :target: https://travis-ci.org/Starcross/django-starcross-gallery
+.. image:: https://github.com/Starcross/django-starcross-gallery/actions/workflows/app.yml/badge.svg
+    :target: https://github.com/Starcross/django-starcross-gallery/actions/workflows/app.yml
     :alt: Build Status
 
 .. image:: https://coveralls.io/repos/github/Starcross/django-starcross-gallery/badge.svg?branch=master
