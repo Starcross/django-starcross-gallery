@@ -38,6 +38,7 @@ class Image(models.Model):
 
     @cached_property
     def exif(self):
+        """ Retrieve exif data using PIL as a dictionary """
         exif_data = {}
         self.data.open()
         with pImage.open(self.data) as img:
@@ -62,6 +63,7 @@ class Image(models.Model):
 
     @cached_property
     def date_taken(self):
+        """ Use the date taken from the exif data, otherwise file modification time """
         original_exif = self.exif.get('DateTimeOriginal')
         if not original_exif:
             return self.mtime
@@ -76,15 +78,14 @@ class Image(models.Model):
 
     @property
     def title(self):
+        """ Derive a title from the original filename """
         if hasattr(self, '_title'):
             return self._title
-        """ Derive a title from the original filename """
+        name = Path(self.data.name)
         # remove extension
-        filename = Path(self.data.name).with_suffix('').name
+        name = name.with_suffix('').name
         # convert spacing characters to whitespaces
-        name = filename.translate(str.maketrans('_', ' '))
-        # return with first letter caps
-        return name.title()
+        return name.translate(str.maketrans('_', ' '))
 
     # Temporary override for album highlights
     @title.setter
@@ -118,6 +119,7 @@ class Album(models.Model):
 
     @property
     def display_highlight(self):
+        """ User selectable thumbnail for the album """
         # if there is no highlight but there are images in the album, use the first
         if not self.highlight and self.images.count():
             image = self.images.earliest('id')
