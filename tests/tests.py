@@ -20,7 +20,7 @@ class ImageTests(TestCase):
     test_album_title = "My First Album"
     test_image_title_unicode = "Паровоз"
 
-    image_filenames = ['antibes_marina.jpg', 'castle_combe.jpg', 'паровоз.jpg']
+    image_filenames = ['Antibes_Marina.jpg', 'Castle_Combe.jpg', 'Паровоз.jpg']
 
     exif_data = ['Sony  DSLR-A700', 'F/11.0', '1/500s', '16mm', 'ISO 200']
 
