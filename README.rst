@@ -41,7 +41,7 @@ Quick start
 
     path('gallery/', include('gallery.urls')),
 
-4. Ensure a `MEDIA directory <https://docs.djangoproject.com/en/3.1/topics/files/>`_ is set up
+4. Ensure a `MEDIA directory <https://docs.djangoproject.com/en/4.0/topics/files/>`_ is set up
 
 5. Run ``python manage.py makemigrations gallery``, then ``python manage.py migrate gallery`` to create the models.
 
