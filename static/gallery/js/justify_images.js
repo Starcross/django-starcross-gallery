@@ -9,7 +9,7 @@
 
 
 
-function justify_images() {
+function justify_images(event) {
 /** Fix the width each image in a container to fully justify each row */
 
     var container = document.getElementById('image_container');
@@ -33,6 +33,7 @@ function justify_images() {
         row_width += (images[i].naturalWidth / hdpi_factor);
         // Look ahead to see how wide the next image is
         var next_half_width = 0;
+        var resize_factor = 1;  // Initialize for orphans too...
         if (i < images.length - 1) {
             next_half_width = images[i+1].naturalWidth / hdpi_factor / 2 ;
         }
@@ -42,7 +43,7 @@ function justify_images() {
             // Account for the total width of all margins on this row
             var margin_total = image_margin * (row_images.length - 1);
             // Find the factor required to shrink or enlarge the images in this row
-            var resize_factor = (container_width - margin_total) / (row_width - margin_total);
+            resize_factor = (container_width - margin_total) / (row_width - margin_total);
             resize_row(row_images, resize_factor);
             // Reset values for new row
             row_width = 0;
@@ -67,9 +68,10 @@ function resize_row(images, factor) {
 
         var overlay = images[i].nextElementSibling;
         var width = ((images[i].naturalWidth / hdpi_factor) * factor);
-        images[i].style.width = width + "px";
+        // html spec says these must be integers without a unit...
+        images[i].width = Math.floor(width);
         var height = ((images[i].naturalHeight / hdpi_factor) * factor);
-        images[i].style.height = height + "px";
+        images[i].height = Math.floor(height);
         // Add a margin to image and overlay if this is not the last image
         if (i < (images.length - 1)) {
             images[i].classList.add('image_spacer');
