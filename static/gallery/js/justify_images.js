@@ -68,10 +68,9 @@ function resize_row(images, factor) {
 
         var overlay = images[i].nextElementSibling;
         var width = ((images[i].naturalWidth / hdpi_factor) * factor);
-        // html spec says these must be integers without a unit...
-        images[i].width = Math.floor(width);
+        images[i].style.width = width + "px";
         var height = ((images[i].naturalHeight / hdpi_factor) * factor);
-        images[i].height = Math.floor(height);
+        images[i].style.height = height + "px";
         // Add a margin to image and overlay if this is not the last image
         if (i < (images.length - 1)) {
             images[i].classList.add('image_spacer');

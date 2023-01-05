@@ -39,7 +39,6 @@ function load_images_from_cursor(cursor) {
 
         if (i >= images.length) {
             // All images have been set to load
-            scroll_cursor += i; // Set scroll cursor for further image loads
             window.removeEventListener('scroll',check_infinite_scroll);
             return;
         }
@@ -57,4 +56,4 @@ function load_images_from_cursor(cursor) {
 }
 
 window.addEventListener('load',init_infinite_scroll);
-window.addEventListener('scroll',check_infinite_scroll,{ capture: true });
+window.addEventListener('scroll',check_infinite_scroll);
