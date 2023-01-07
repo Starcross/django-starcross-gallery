@@ -4,7 +4,7 @@ var pagination_size = 40;
 var scroll_cursor = 0;
 
 function init_infinite_scroll() {
-        load_images_from_cursor(scroll_cursor);
+    load_images_from_cursor(scroll_cursor);
 }
 
 function check_infinite_scroll(event) {
@@ -12,10 +12,12 @@ function check_infinite_scroll(event) {
     // Based on https://benjaminhorn.io/code/how-to-implement-infinite-scroll/
     // Modified to handle a scrollable element nested within fixed elements by
     // referring to event.target
+    let target =  (event.target instanceof HTMLDocument) ?
+        event.target.scrollingElement : event.target;
     // Fetch variables
-    let scrollTop = event.target.scrollTop;
-    let windowHeight = event.target.clientHeight;
-    let bodyHeight = event.target.scrollHeight - windowHeight;
+    let scrollTop =        target.scrollTop;
+    let windowHeight =     target.clientHeight;
+    let bodyHeight =       target.scrollHeight - windowHeight;
     let scrollPercentage = (scrollTop / bodyHeight);
 
     // if the scroll is more than 90% from the top, load more content.
