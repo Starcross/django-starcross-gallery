@@ -32,30 +32,24 @@ function load_images_from_cursor(cursor) {
     // Find the images in the thumbnail container
     var images = document.querySelectorAll('.image');
     var thumbnails = document.querySelectorAll('.thumbnail');
-    // Ignore pages with no images
-    if (images == []) {
-        return;
-    }
 
-    // Change the source of the next page of images
-    for (var i=scroll_cursor; i < scroll_cursor + pagination_size; i++) {
-
-        if (i >= images.length) {
-            // All images have been set to load
-            window.removeEventListener('scroll',check_infinite_scroll);
-            return;
-        }
-
-        // Re-justify once the data has loaded
+    var i = scroll_cursor;      // start from last position
+    
+    // Change the source of the next page of images if any left
+    for (; i < images.length && i < scroll_cursor + pagination_size; i++) {
+        // Re-justify after this image has loaded
         images[i].addEventListener('load', justify_images);
-        // Show the image as they load hidden
+        // and change its display property to show it
         thumbnails[i].style.display = 'block';
+        // Initiate the load
         var src = images[i].getAttribute('data-src');
         images[i].setAttribute('src', src);
     }
-
-    scroll_cursor += pagination_size;
-
+    if (i >= images.length && scroll_cursor < images.length) {
+        // All images have been set to load, no further need
+        window.removeEventListener('scroll',check_infinite_scroll);
+    }
+    scroll_cursor = i;          // remember last position
 }
 
 window.addEventListener('load',init_infinite_scroll);
