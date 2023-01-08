@@ -59,4 +59,4 @@ function load_images_from_cursor(cursor) {
 }
 
 window.addEventListener('load',init_infinite_scroll);
-window.addEventListener('scroll',check_infinite_scroll);
+window.addEventListener('scroll',check_infinite_scroll, {'capture':true});
