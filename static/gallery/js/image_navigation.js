@@ -1,6 +1,6 @@
 /** Provide navigation keys to change the current image */
 
-var left = 37; var right = 39;
+const left = 37; const right = 39;
 
 document.addEventListener("keydown", function(event) {
     switch(event.which) {
