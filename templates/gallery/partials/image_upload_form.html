@@ -1,7 +1,7 @@
 
-{% if form.non_field_errors %}
+{% if form.errors %}
     <div class="alert alert-warning">
-        {{ form.non_field_errors }}
+        {{ form.errors }}
     </div>
 {% endif %}
 
@@ -23,8 +23,9 @@
     <div id="progress">
         <div class="progressbar"></div>
     </div>-->
+    <input type="submit"/>
 
-   <input type="hidden" name="apk" value="{{ album.pk }}"/>
-   <input type="hidden" name="next" value="{{ request.path }}"/>
+    <input type="hidden" name="apk" value="{{ album.pk }}"/>
+    <input type="hidden" name="next" value="{{ request.path }}"/>
 
 </form>

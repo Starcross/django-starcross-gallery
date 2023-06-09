@@ -1,27 +1,34 @@
+import PIL
 from django import forms
 from PIL import Image
 
 
-class ImageFileInput(forms.ClearableFileInput):
+# Referring to https://docs.djangoproject.com/en/4.2/topics/http/file-uploads/#uploading-multiple-files
+
+class MultipleFileInput(forms.ClearableFileInput):
+    allow_multiple_selected = True
+
+
+class MultipleFileField(forms.FileField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("widget", MultipleFileInput())
+        super().__init__(*args, **kwargs)
+
+    def clean(self, data, initial=None):
+        single_file_clean = super().clean
+        if isinstance(data, (list, tuple)):
+            result = [single_file_clean(d, initial) for d in data]
+        else:
+            result = single_file_clean(data, initial)
+        return result
 
     def validate(self, value):
-        return super.validate(value)
+        """ Validate file by checking it can be opened by PIL """
+        try:
+            Image.open(value)
+        except PIL.UnidentifiedImageError as e:
+            raise forms.ValidationError("Unable to add invalid image: {0}".format(value.name))
 
 
 class ImageCreateForm(forms.Form):
-    data = forms.FileField(widget=ImageFileInput(attrs={'multiple': True}))
-
-    def clean(self):
-        """ Validate files by checking they can be opened by PIL """
-        # cleaned_data = super(ImageCreateForm, self).clean()
-        image_files = self.files.getlist('data')
-        invalid_images = []
-        for img in image_files:
-            try:
-                with Image.open(img) as i:
-                    i.verify()
-            except (IOError, SyntaxError):
-                invalid_images += [img]
-        if invalid_images:
-            image_names = [i._name for i in invalid_images]
-            raise forms.ValidationError("Unable to add invalid images: {0}".format(image_names))
+    data = MultipleFileField()
