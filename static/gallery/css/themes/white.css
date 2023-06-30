@@ -40,3 +40,9 @@ a {
     background-color: #ddd;
     border-color: #ccc;
 }
+
+.alert {
+    background-color: #444;
+    border-color: #666;
+    color: #ccc;
+}

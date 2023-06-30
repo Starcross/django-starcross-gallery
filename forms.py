@@ -16,7 +16,7 @@ class MultipleFileField(forms.FileField):
 
     def clean(self, data, initial=None):
         single_file_clean = super().clean
-        if isinstance(data, (list, tuple)):
+        if data and isinstance(data, (list, tuple)):
             result = [single_file_clean(d, initial) for d in data]
         else:
             result = single_file_clean(data, initial)
@@ -27,7 +27,10 @@ class MultipleFileField(forms.FileField):
         try:
             Image.open(value)
         except PIL.UnidentifiedImageError as e:
-            raise forms.ValidationError("Unable to add invalid image: {0}".format(value.name))
+            raise forms.ValidationError("Unable to add invalid image: %(name)s",
+                                        params={"name": value.name})
+        except AttributeError:
+            raise forms.ValidationError("Unable to add empty image")
 
 
 class ImageCreateForm(forms.Form):

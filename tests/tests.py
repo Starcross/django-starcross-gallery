@@ -30,8 +30,8 @@ class ImageTests(TestCase):
     def setUp(self):
 
         # Find the local directory and add the test media location
-        TEST_ROOT = os.path.abspath(os.path.dirname(__file__))
-        settings.MEDIA_ROOT = os.path.join(TEST_ROOT, 'media/')
+        test_root = os.path.abspath(os.path.dirname(__file__))
+        settings.MEDIA_ROOT = os.path.join(test_root, 'media/')
 
         # Create test album with test images inside
         self.album = Album.objects.create(title=self.test_album_title)
@@ -42,6 +42,7 @@ class ImageTests(TestCase):
         self.unicode_image = self.images[2]  # Set unicode image
 
         User.objects.create_superuser(self.username, 'user@email.com', self.password)
+        self.client.login(username=self.username, password=self.password)
 
     def test_image_list(self):
         """ Test global image list """
@@ -96,24 +97,15 @@ class ImageTests(TestCase):
         self.assertContains(response, self.image.title, count=2, msg_prefix="Error testing image in album view")
 
     def test_image_properties(self):
-
         image = Image.objects.all()[0]
         self.assertEqual(image.title, ImageTests.test_image_title, "Incorrect title in image object")
         self.assertEqual(image.date_taken, datetime.strptime("2013-03-21 15:04:53", "%Y-%m-%d %H:%M:%S"),
                          "Incorrect date in image object")
         self.assertEqual(image.slug, self.test_slug, "Incorrect slug in image object")
 
-    def test_image_form_validation(self):
-        data = {'apk': self.album.pk}
-        image_path = os.path.join(settings.MEDIA_ROOT, self.image_filenames[0])
-        image_files = MultiValueDict({'data': [image_path]})
-        form = ImageCreateForm(data, files=image_files)
-        form.clean()
-
     def test_valid_image_upload(self):
         album_size = len(self.album.images.all())
         image_path = os.path.join(settings.MEDIA_ROOT, self.image_filenames[0])
-        self.client.login(username=self.username, password=self.password)
 
         with open(image_path, 'rb') as image_file:
             data = {'apk': self.album.pk,
@@ -124,11 +116,9 @@ class ImageTests(TestCase):
         self.album.images.last().delete()
         self.assertEqual(album_size, len(self.album.images.all()), "Error removing image")
 
-        self.client.logout()
-
     def test_empty_image_upload(self):
         response = self.client.post(reverse('gallery:image_upload'))
-        self.assertEqual(response.status_code, 302, "Error testing empty image upload")
+        self.assertContains(response, "Unable to add")
 
     def test_invalid_image_upload(self):
         data = {'data': SimpleUploadedFile('text.txt', b'text')}

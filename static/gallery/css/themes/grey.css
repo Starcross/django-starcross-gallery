@@ -36,3 +36,9 @@ a {
     background: rgba(64,64,64, 0.3);
     border-color: #666;
 }
+
+.alert {
+    background-color: #ddd;
+    border-color: #666;
+    color: #111;
+}
