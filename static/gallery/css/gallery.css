@@ -92,3 +92,10 @@
     vertical-align: sub;
     padding: 0 0.2em 0 0.5em;
 }
+.alert {
+    border: 0.15em solid;
+    margin: 1em 0;
+}
+.alert ul li {
+    list-style: none;
+}

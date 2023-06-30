@@ -65,7 +65,7 @@ class ImageList(GallerySettingsMixin, ListView):
 
 
 class ImageCreate(GallerySettingsMixin, LoginRequiredMixin, FormView):
-    """ Embedded drag and drop image upload"""
+    """ Embedded drag and drop image upload """
     login_url = '/admin/login/'
     form_class = ImageCreateForm
     template_name = 'gallery/image_upload.html'
@@ -91,7 +91,7 @@ class ImageCreate(GallerySettingsMixin, LoginRequiredMixin, FormView):
         response = super().form_invalid(form)
         next_url = self.request.POST.get('next')
         if next_url:
-            # TODO: Preserve error message
+            messages.error(self.request, form.errors)
             return redirect(next_url)
         else:
             return response
