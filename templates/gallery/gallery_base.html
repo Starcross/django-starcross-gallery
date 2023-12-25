@@ -1,4 +1,5 @@
 <!doctype html>
+
 {% load static %}
 
 <html>
@@ -29,7 +30,7 @@
 
     {% if logo_path %}
         <div id="logo">
-            <a href="/gallery">
+            <a href="{% url 'gallery:album_list' %}">
                 <img src="{% static logo_path %}" alt="Gallery logo" style="height: auto; max-width:100%;">
             </a>
         </div>
