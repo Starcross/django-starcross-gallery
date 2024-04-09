@@ -34,7 +34,7 @@
     {% endfor %}
 
 
-    {% if not image_list and user.is_authenticated %}
+    {% if not image_list and perms.gallery.add_image and perms.gallery.change_album %}
 
         <div id="empty_placeholder">
             Drag images into this box to upload to the image feed

@@ -35,7 +35,7 @@
     {% endfor %}
 
 
-    {% if not album.images.all and user.is_authenticated %}
+    {% if not album.images.all and perms.gallery.add_image and perms.gallery.change_album %}
 
         <div id="empty_placeholder">
             Drag images into this box to upload to the album
