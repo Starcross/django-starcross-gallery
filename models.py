@@ -9,12 +9,18 @@ from PIL.ExifTags import TAGS
 from gallery import settings
 from pathlib import Path
 from datetime import datetime
-import os
+from django.core.files import storage
+
+# Create storage class and instance, based on the GALLERY_STORAGE setting
+# This allows the user the flexibility to use Amazon S3 or any other object storage
+# provider. Default is local file storage.
+gallery_storage_class = storage.get_storage_class(settings.GALLERY_STORAGE)
+gallery_storage = gallery_storage_class()
 
 
 class Image(models.Model):
 
-    data = models.ImageField(upload_to='images')
+    data = models.ImageField(upload_to='images', storage=gallery_storage_class)
     data_thumbnail = ImageSpecField(
         source='data',
         processors=[ResizeToFit(height=settings.GALLERY_THUMBNAIL_SIZE * settings.GALLERY_HDPI_FACTOR)],
@@ -74,7 +80,10 @@ class Image(models.Model):
 
     @cached_property
     def mtime(self):
-        return datetime.fromtimestamp(os.path.getmtime(self.data.path))
+        # Use the storage class to get the modified time, which works both locally
+        # and for remote storage. Translate into zone-unaware datetime to allow
+        # comparing with other timestamps
+        return gallery_storage.get_modified_time(self.data.name).replace(tzinfo=None)
 
     @property
     def title(self):

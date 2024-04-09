@@ -24,3 +24,5 @@ GALLERY_HDPI_FACTOR = getattr(settings, 'GALLERY_HDPI_FACTOR', 2)
 GALLERY_IMAGE_MARGIN = getattr(settings, 'GALLERY_IMAGE_MARGIN', 6.0)
 # CSS Color Styling
 GALLERY_THEME_COLOR = getattr(settings, 'GALLERY_THEME_COLOR', "black")
+# Gallery Storage
+GALLERY_STORAGE = getattr(settings, 'GALLERY_STORAGE', "django.core.files.storage.FileSystemStorage")

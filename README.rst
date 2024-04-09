@@ -107,6 +107,9 @@ The actual preview and thumbnail sizes are multiplied by this number, but render
 
 Margin between thumbnails in px. This can create a more or less condensed look
 
+**GALLERY_STORAGE** -- Default: "django.core.files.storage.FileSystemStorage"
+
+Storage class definition for the images. Can be used to configure S3
 
 Troubleshooting
 ---------------

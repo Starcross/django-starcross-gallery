@@ -124,3 +124,6 @@ class ImageTests(TestCase):
         data = {'data': SimpleUploadedFile('text.txt', b'text')}
         response = self.client.post(reverse('gallery:image_upload'), data=data)
         self.assertContains(response, "Unable to add invalid image", msg_prefix="Error testing invalid image data")
+
+    def test_image_modified_time(self):
+        self.assertIsInstance(self.image.mtime, datetime)
