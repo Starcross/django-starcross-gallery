@@ -17,6 +17,7 @@ class ImageAdmin(admin.ModelAdmin):
     list_filter = ('image_albums',)
     list_per_page = 25
     readonly_fields = ('admin_thumbnail',)
+    exclude = ('exif_json',)
 
 
 class AlbumAdmin(SortableAdminMixin, admin.ModelAdmin):

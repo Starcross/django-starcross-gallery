@@ -5,11 +5,13 @@ from django.utils.functional import cached_property
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit
 from PIL import Image as pImage
+from PIL import TiffImagePlugin
 from PIL.ExifTags import TAGS
 from gallery import settings
 from pathlib import Path
 from datetime import datetime
 from django.core.files import storage
+import json
 
 # Create storage class and instance, based on the GALLERY_STORAGE setting
 # This allows the user the flexibility to use Amazon S3 or any other object storage
@@ -37,13 +39,18 @@ class Image(models.Model):
         options={'quality': settings.GALLERY_RESIZE_QUALITY}
     )
     date_uploaded = models.DateTimeField(auto_now_add=True)
+    # exif_json stored the exif data in the database, which speeds up retrieving the
+    # data for external storage providers. When the data is not yet available in this
+    # field, it's retrieved from the data itself, and automatically stored.
+    # When there is no exif available, the empty dictionary "{}" is stored to distinguish
+    # from not having retrieved the data yet.
+    exif_json = models.JSONField(blank=True, null=True)
 
     @cached_property
     def slug(self):
         return slugify(self.title, allow_unicode=True)
 
-    @cached_property
-    def exif(self):
+    def _retrieve_exif_from_data(self):
         """ Retrieve exif data using PIL as a dictionary """
         exif_data = {}
         self.data.open()
@@ -54,23 +61,47 @@ class Image(models.Model):
                     return {}
                 for tag, value in info.items():
                     decoded = TAGS.get(tag, tag)
-                    exif_data[decoded] = value
+                    if isinstance(value, TiffImagePlugin.IFDRational):
+                        exif_data[f'{decoded}Numerator'] = value.numerator
+                        exif_data[f'{decoded}Denominator'] = value.denominator
+                        try:
+                            value = float(value)
+                        except ZeroDivisionError:
+                            value = 0.0
+                    elif isinstance(value, tuple) or isinstance(value, bytes) or isinstance(value, dict):
+                        # Cannot serialize bytes, and we don't need them, so let's skip them anyway
+                        value = None
+                    if value is not None:
+                        exif_data[decoded] = value
+                # for tag, value in exif_data.items():
+                #     print(tag, value, type(value))
                 # Process some data for easy rendering in template
                 exif_data['Camera'] = exif_data.get('Model', '')
                 if exif_data.get('Make', '') not in exif_data['Camera']:  # Work around for Canon
                     exif_data['Camera'] = "{0} {1}".format(exif_data['Make'].title(), exif_data['Model'])
                 if 'FNumber' in exif_data:
-                    exif_data['Aperture'] = str(exif_data['FNumber'].numerator / exif_data['FNumber'].denominator)
+                    exif_data['Aperture'] = exif_data['FNumber']
                 if 'ExposureTime' in exif_data:
-                    exif_data['Exposure'] = "{0}/{1}".format(exif_data['ExposureTime'].numerator,
-                                                             exif_data['ExposureTime'].denominator)
+                    exif_data['Exposure'] = "{0}/{1}".format(exif_data['ExposureTimeNumerator'],
+                                                             exif_data['ExposureTimeDenominator'])
             img.close()
         return exif_data
+    #
+    @cached_property
+    def exif(self):
+        if not self.exif_json:
+            exif_dict = self._retrieve_exif_from_data()
+            self.exif_json = json.JSONEncoder().encode(exif_dict)
+            self.save()
+        return json.JSONDecoder().decode(self.exif_json)
 
     @cached_property
     def date_taken(self):
         """ Use the date taken from the exif data, otherwise file modification time """
-        original_exif = self.exif.get('DateTimeOriginal')
+        try:
+            original_exif = self.exif.get('DateTimeOriginal')
+        except FileNotFoundError:
+            return datetime.today()
         if not original_exif:
             return self.mtime
         try:
