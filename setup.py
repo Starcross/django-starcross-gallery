@@ -12,7 +12,7 @@ requirements = ['django-imagekit', 'Pillow']
 setup(
     name='django-starcross-gallery',
     version='1.2.0',
-    packages='gallery',
+    packages=['gallery'],
     include_package_data=True,
     license='GNU LGPLv3',
     description='A streamlined Django gallery app with justified layout, infinite scrolling, and drag & drop uploading',
