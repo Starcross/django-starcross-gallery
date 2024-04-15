@@ -1,1 +1,4 @@
 /django-starcross-gallery/
+/dist/
+/django_starcross_gallery.egg-info
+/tests/media/CACHE
