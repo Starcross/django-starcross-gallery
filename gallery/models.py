@@ -95,8 +95,7 @@ class Image(models.Model):
             self.save()
         return json.JSONDecoder().decode(self.exif_json)
 
-    @cached_property
-    def date_taken(self):
+    def retrieve_date_taken(self):
         """ Use the date taken from the exif data, otherwise file modification time """
         try:
             original_exif = self.exif.get('DateTimeOriginal')
@@ -108,6 +107,8 @@ class Image(models.Model):
             return datetime.strptime(original_exif, "%Y:%m:%d %H:%M:%S")
         except ValueError:  # Fall back to file modification time
             return self.mtime
+
+    date_taken = models.DateTimeField(default=None, null=True)
 
     @cached_property
     def mtime(self):

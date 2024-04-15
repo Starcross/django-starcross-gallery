@@ -37,9 +37,12 @@ class ImageTests(TestCase):
         self.album = Album.objects.create(title=self.test_album_title)
         self.images = []
         for filename in self.image_filenames:
-            self.images += [self.album.images.create(data=filename)]
+            image = self.album.images.create(data=filename)
+            image.save()
+            self.images += [image]
         self.image = self.images[0]  # Set main set image
         self.unicode_image = self.images[2]  # Set unicode image
+        self.album.save()
 
         User.objects.create_superuser(self.username, 'user@email.com', self.password)
         self.client.login(username=self.username, password=self.password)
