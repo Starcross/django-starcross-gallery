@@ -8,7 +8,6 @@
 */
 
 
-
 function justify_images() {
 /** Fix the width each image in a container to fully justify each row */
 
@@ -18,7 +17,7 @@ function justify_images() {
 
     // Find the images in the thumbnail container
     const images = document.querySelectorAll('.image');
-    if (images == []) {
+    if (!images.length) {
         return;
     }
 
@@ -60,24 +59,25 @@ function justify_images() {
 
 function resize_row(images, factor) {
 /** Set each item in the image array according to the given factor */
+    const spacer = 'image_spacer';  // Spacer CSS class name
 
     for (let i=0; i < images.length; i++) {
 
         const overlay = images[i].nextElementSibling;
         const width = ((images[i].naturalWidth / hdpi_factor) * factor);
-        images[i].style.width = width + "px";
+        images[i].style.width = width + 'px';
         const height = ((images[i].naturalHeight / hdpi_factor) * factor);
-        images[i].style.height = height + "px";
+        images[i].style.height = height + 'px';
         // Add a margin to image and overlay if this is not the last image
         if (i < (images.length - 1)) {
-            images[i].classList.add('image_spacer');
-            overlay.classList.add('image_spacer');
+            images[i].classList.add(spacer);
+            overlay.classList.add(spacer);
 
         } else {
-            images[i].classList.remove('image_spacer');
-            overlay.classList.remove('image_spacer');
+            images[i].classList.remove(spacer);
+            overlay.classList.remove(spacer);
         }
     }
 }
 
-window.addEventListener('resize',justify_images);
+window.addEventListener('resize', justify_images);

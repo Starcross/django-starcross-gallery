@@ -8,7 +8,6 @@ function init_infinite_scroll() {
 }
 
 function check_infinite_scroll(event) {
-
     // Based on https://benjaminhorn.io/code/how-to-implement-infinite-scroll/
     // Handle a scrollable element nested within fixed elements by referring to event.target
     let target =  (event.target instanceof HTMLDocument) ?
@@ -26,8 +25,7 @@ function check_infinite_scroll(event) {
 
 }
 
-function load_images_from_cursor(cursor) {
-
+function load_images_from_cursor() {
     // Find the images in the thumbnail container
     const images = document.querySelectorAll('.image');
     const thumbnails = document.querySelectorAll('.thumbnail');
