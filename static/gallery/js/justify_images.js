@@ -51,7 +51,7 @@ function justify_images() {
         }
         // If there are any orphans on an incomplete last row, resize these
         if (row_width && i === images.length - 1) {
-            resize_row(row_images, resize_factor);
+            resize_row(row_images, 1);
         }
 
     }
