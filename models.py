@@ -120,11 +120,11 @@ class Album(models.Model):
     @property
     def display_highlight(self):
         """ User selectable thumbnail for the album """
-        # if there is no highlight but there are images in the album, use the first
-        if not self.highlight and self.images.count():
-            image = self.images.earliest('id')
-        else:
+        if self.highlight :
             image = self.highlight
+        # if there is no highlight but there are images in the album, use the first
+        else:
+            image = self.images.earliest('id')
         if image:
             image.title = self.title  # use the album title instead of the highlight title
         return image

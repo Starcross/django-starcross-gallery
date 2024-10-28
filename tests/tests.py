@@ -15,10 +15,10 @@ from gallery.forms import ImageCreateForm
 class ImageTests(TestCase):
     """ Test case for starcross-django-gallery """
 
-    test_image_title = "Antibes Marina"
-    test_slug = "antibes-marina"
-    test_album_title = "My First Album"
-    test_image_title_unicode = "Паровоз"
+    image_title = "Antibes Marina"
+    slug = "antibes-marina"
+    album_title = "My First Album"
+    image_title_unicode = "Паровоз"
 
     image_filenames = ['Antibes_Marina.jpg', 'Castle_Combe.jpg', 'Паровоз.jpg']
 
@@ -33,13 +33,13 @@ class ImageTests(TestCase):
         test_root = os.path.abspath(os.path.dirname(__file__))
         settings.MEDIA_ROOT = os.path.join(test_root, 'media/')
 
-        # Create test album with test images inside
-        self.album = Album.objects.create(title=self.test_album_title)
+        # Create an album with images inside
+        self.album = Album.objects.create(title=self.album_title)
         self.images = []
         for filename in self.image_filenames:
             self.images += [self.album.images.create(data=filename)]
-        self.image = self.images[0]  # Set main set image
-        self.unicode_image = self.images[2]  # Set unicode image
+        self.image = self.images[0]  # Set primary test image
+        self.unicode_image = self.images[2]  # Set unicode test image
 
         User.objects.create_superuser(self.username, 'user@email.com', self.password)
         self.client.login(username=self.username, password=self.password)
@@ -48,8 +48,8 @@ class ImageTests(TestCase):
         """ Test global image list """
 
         response = self.client.get(reverse('gallery:image_list'))
-        self.assertContains(response, self.test_image_title, msg_prefix="Image title missing from image feed")
-        self.assertContains(response, self.test_image_title_unicode,
+        self.assertContains(response, self.image_title, msg_prefix="Image title missing from image feed")
+        self.assertContains(response, self.image_title_unicode,
                             msg_prefix="Unicode image title missing from image feed")
 
     def test_image_detail(self):
@@ -57,12 +57,12 @@ class ImageTests(TestCase):
 
         response = self.client.get(reverse('gallery:image_detail',
                                            kwargs={'pk': self.image.pk, 'slug': self.image.title}))
-        self.assertContains(response, self.test_image_title, msg_prefix="Image preview does not contain image title")
+        self.assertContains(response, self.image_title, msg_prefix="Image preview does not contain image title")
         # Check exif data present
         for data in self.exif_data:
             self.assertContains(response, data, msg_prefix="Exif data missing")
         # Check image's album appears in this context
-        self.assertContains(response, self.test_album_title, count=2,
+        self.assertContains(response, self.album_title, count=2,
                             msg_prefix="Image preview does not contain related album")
 
     def test_album_image_detail(self):
@@ -70,15 +70,23 @@ class ImageTests(TestCase):
         response = self.client.get(reverse('gallery:album_image_detail',
                                            kwargs={'pk': self.image.pk, 'slug': self.image.title,
                                                    'apk': self.album.pk}))
-        self.assertContains(response, self.test_album_title, count=2, msg_prefix="Image preview incorrect")
+        self.assertContains(response, self.album_title, count=2, msg_prefix="Image preview incorrect")
 
     def test_album_list(self):
         """ Test album and auto highlight """
+        highlight = self.images[1]
+        first_image = self.album.images.earliest('id')
+        highlight_album = Album.objects.create(title="Highlight album")
+        highlight_album.images.set(self.images[0:1])
+        highlight_album.highlight = highlight
+        highlight_album.save()
+
         response = self.client.get(reverse('gallery:album_list'))
 
-        self.assertContains(response, self.test_album_title, msg_prefix="Album data missing from album list")
-        image = self.album.images.earliest('id')
-        self.assertContains(response, image.data_thumbnail.url, msg_prefix="Album list missing album url")
+        self.assertContains(response, self.album_title, msg_prefix="Album data missing from album list")
+
+        self.assertContains(response, first_image.data_thumbnail.url, msg_prefix="Album list missing album url")
+        self.assertContains(response, highlight.data_thumbnail.url, msg_prefix="Highlight image missing")
 
     def test_empty_album(self):
         """ Check empty albums do not cause errors """
@@ -86,7 +94,6 @@ class ImageTests(TestCase):
         self.empty_album = Album.objects.create(title='Empty album')
         response = self.client.get(reverse('gallery:album_list'))
         self.assertEqual(response.status_code, 200, "Error displaying empty album")
-        Album.objects.all().last().delete()
 
     def test_album_view(self):
         """ Test albums contain images """
@@ -98,10 +105,10 @@ class ImageTests(TestCase):
 
     def test_image_properties(self):
         image = Image.objects.all()[0]
-        self.assertEqual(image.title, ImageTests.test_image_title, "Incorrect title in image object")
+        self.assertEqual(image.title, ImageTests.image_title, "Incorrect title in image object")
         self.assertEqual(image.date_taken, datetime.strptime("2013-03-21 15:04:53", "%Y-%m-%d %H:%M:%S"),
                          "Incorrect date in image object")
-        self.assertEqual(image.slug, self.test_slug, "Incorrect slug in image object")
+        self.assertEqual(image.slug, self.slug, "Incorrect slug in image object")
 
     def test_valid_image_upload(self):
         album_size = len(self.album.images.all())
