@@ -22,15 +22,15 @@
 
 {% for album in object_list %}
     <a href="{% url 'gallery:album_detail' album.pk album.slug  %}">
-
-        {% if album.display_highlight %}
-            {% with album.display_highlight as image %}
-                {% include "gallery/partials/thumbnail.html" %}
+    
+            {% with image=album.display_highlight %}
+                {% if image %}
+                    {% include "gallery/partials/thumbnail.html" %}
+                {% else %}
+                    {% include "gallery/partials/thumbnail_empty.html" %}
+                {% endif %}
             {% endwith %}
-        {% else %}
-            {% include "gallery/partials/thumbnail_empty.html" %}
-        {% endif %}
-
+        
     </a>
 {% endfor %}
 
