@@ -14,7 +14,7 @@ import os
 
 class Image(models.Model):
 
-    data = models.ImageField(upload_to='images')
+    data = models.ImageField(upload_to=settings.GALLERY_IMAGES_PATH)
     data_thumbnail = ImageSpecField(
         source='data',
         processors=[ResizeToFit(height=settings.GALLERY_THUMBNAIL_SIZE * settings.GALLERY_HDPI_FACTOR)],
