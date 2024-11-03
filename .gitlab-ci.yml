@@ -8,7 +8,10 @@ default:
       - ~/.cache/pip/
   before_script:
     - apt -y update
-    - apt -y install python3-pip python-is-python3
+    - apt -y install python3-pip python-is-python3 virtualenv
+    - virtualenv .venv
+    - source .venv/bin/activate
+
 
 build:
   stage: build
