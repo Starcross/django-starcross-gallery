@@ -21,7 +21,7 @@ build:
 
 tests:
   stage: test
-  needs: ["build:build"]
+  needs: ["build"]
   script:
     - python runtests.py
 
