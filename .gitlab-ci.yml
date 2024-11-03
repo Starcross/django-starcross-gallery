@@ -8,7 +8,7 @@ default:
       - ~/.cache/pip/
   before_script:
     - apt -y update
-    - apt -y install python3-pip python-is-python3 virtualenv
+    - apt -y install python3-pip virtualenv
     - virtualenv .venv
     - source .venv/bin/activate
 
@@ -22,5 +22,5 @@ build:
 tests:
   stage: test
   script:
-    - python3 runtests.py
+    - python runtests.py
 
