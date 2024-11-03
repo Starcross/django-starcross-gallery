@@ -1,27 +1,21 @@
 default:
-  image: ubuntu:24.04
-  #
-  # This folder is cached between builds
-  # http://docs.gitlab.com/ee/ci/yaml/README.html#cache
+  image: python:latest
   cache:
     paths:
       - ~/.cache/pip/
   before_script:
-    - apt -y update
-    - apt -y install python3-pip virtualenv
+    - python -V
+    - pip install virtualenv
     - virtualenv .venv
     - source .venv/bin/activate
+    - /build.sh
+    - pip3 install --find-links ./django-starcross-gallery/dist django-starcross-gallery
 
-
-build:
-  stage: build
-  script:
-  - ./build.sh
-  - pip3 install --find-links ./django-starcross-gallery/dist django-starcross-gallery
+variables:  # Change pip's cache directory to be inside the project directory since we can only cache local items.
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
 
 tests:
   stage: test
-  needs: ["build"]
   script:
     - python runtests.py
 
