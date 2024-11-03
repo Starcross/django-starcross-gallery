@@ -1,0 +1,22 @@
+default:
+  image: ubuntu:24.04
+  #
+  # This folder is cached between builds
+  # http://docs.gitlab.com/ee/ci/yaml/README.html#cache
+  cache:
+    paths:
+      - ~/.cache/pip/
+  before_script:
+    - apt install python3-pip
+
+build:
+  stage: build
+  script:
+  - ./build.sh
+  - pip3 install --find-links ./django-starcross-gallery/dist django-starcross-gallery
+
+tests:
+  stage: test
+  script:
+    - python3 runtests.py
+
