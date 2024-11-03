@@ -8,7 +8,7 @@ default:
       - ~/.cache/pip/
   before_script:
     - apt -y update
-    - apt -y install python3-pip
+    - apt -y install python3-pip python-is-python3
 
 build:
   stage: build
