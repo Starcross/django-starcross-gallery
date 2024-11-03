@@ -8,7 +8,7 @@ default:
     - pip install virtualenv
     - virtualenv .venv
     - source .venv/bin/activate
-    - /build.sh
+    - ./build.sh
     - pip3 install --find-links ./django-starcross-gallery/dist django-starcross-gallery
 
 variables:  # Change pip's cache directory to be inside the project directory since we can only cache local items.
