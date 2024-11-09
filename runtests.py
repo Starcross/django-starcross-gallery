@@ -6,6 +6,7 @@ from django.conf import settings
 from django.test.utils import get_runner
 
 if __name__ == "__main__":
+    sys.path.append('..')
     os.environ['DJANGO_SETTINGS_MODULE'] = 'gallery.tests.test_settings'
     django.setup()
     TestRunner = get_runner(settings)
