@@ -18,6 +18,5 @@ variables:  # Change pip's cache directory to be inside the project directory si
 tests:
   stage: test
   script:
-    - cd ..
     - python gallery/runtests.py
 
