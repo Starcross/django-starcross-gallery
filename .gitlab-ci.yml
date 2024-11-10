@@ -19,7 +19,7 @@ tests:
   stage: test
   script:
     - pip install coverage
-    - coverage runtests.py
+    - coverage run runtests.py
     - coverage xml
   artifacts:
     reports:
