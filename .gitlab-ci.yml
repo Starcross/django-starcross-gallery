@@ -18,5 +18,11 @@ variables:  # Change pip's cache directory to be inside the project directory si
 tests:
   stage: test
   script:
-    - python runtests.py
-
+    - pip install coverage
+    - coverage runtests.py
+    - coverage xml
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
