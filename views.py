@@ -110,6 +110,10 @@ class AlbumView(GallerySettingsMixin, DetailView):
         context['images'] = sorted(images, key=lambda i: i.date_taken)
         return context
 
+    def no_coverage_function(self):
+        print("this function has no coverage")
+        pass
+        return
 
 class AlbumList(GallerySettingsMixin, ListView):
     model = Album
