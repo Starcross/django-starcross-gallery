@@ -1,3 +1,4 @@
+{# -*- mode:web -*- engine:django -*- #}
 {% extends "gallery/gallery_base.html" %}
 {% load static %}
 
@@ -20,19 +21,9 @@
 
 <div id="image_container">
 
-{% for album in object_list %}
-    <a href="{% url 'gallery:album_detail' album.pk album.slug  %}">
-    
-            {% with image=album.display_highlight %}
-                {% if image %}
-                    {% include "gallery/partials/thumbnail.html" %}
-                {% else %}
-                    {% include "gallery/partials/thumbnail_empty.html" %}
-                {% endif %}
-            {% endwith %}
-        
-    </a>
-{% endfor %}
+  {% for album in object_list %}
+    {% include "gallery/partials/album.html" %}  
+  {% endfor %}
 
 </div>
 
