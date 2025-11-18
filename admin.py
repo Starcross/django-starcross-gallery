@@ -20,11 +20,13 @@ class ImageAdmin(admin.ModelAdmin):
 
 
 class AlbumAdmin(SortableAdminMixin, admin.ModelAdmin):
-    list_display = ('order', 'title')
+    ordering = ['-order']
+    
+    list_display = ('title', 'published', 'order', 'order_number')
     list_display_links = ('title',)
     if hasattr(SortableAdminMixin, 'mock'):
         list_editable = ('order',)
-        list_display = ('title', 'order')
+        list_display = ('title', 'published', 'order')
     filter_horizontal = ('images',)
     raw_id_fields = ('highlight',)
 
