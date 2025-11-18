@@ -64,7 +64,7 @@ class Image(models.Model):
     def size_str(self):
         if not hasattr(self, 'width'):
             try:
-                with pImage.open(self.source.path) as img:
+                with pImage.open(self.data.path) as img:
                     self.width = img.width
                     self.height = img.height
                     img.close()
