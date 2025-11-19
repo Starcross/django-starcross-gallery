@@ -30,6 +30,9 @@ class AlbumAdmin(SortableAdminMixin, admin.ModelAdmin):
     filter_horizontal = ('images',)
     raw_id_fields = ('highlight',)
 
+    @admin.display(description='order#')
+    def order_number(self, album):
+        return album.order
 
 admin.site.register(Image, ImageAdmin)
 admin.site.register(Album, AlbumAdmin)
