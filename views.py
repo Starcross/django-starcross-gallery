@@ -120,6 +120,3 @@ class AlbumList(GallerySettingsMixin, ListView):
         else:
             return Album.objects.exclude(published=False)
 
-
-class ImageFullView(ImageView):
-    template_name = 'gallery/image_full.html'
