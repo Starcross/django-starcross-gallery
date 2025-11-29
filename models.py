@@ -34,29 +34,20 @@ class Image(models.Model):
     date_uploaded = models.DateTimeField(auto_now_add=True)
     date_taken = models.DateTimeField(null=True, blank=True)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._date_taken = None # default will use upload time (mtime)
-        # See if we can set _date_taken:
-        if not 'data' in kwargs: return
-        img = pImage.open(kwargs['data'].file)
-        if not img.info.get('exif'): return
-        edata = piexif.load(img.info['exif'])
-        if not edata.get('Exif'): return
-        dt_original = edata['Exif'].get(piexif.ExifIFD.DateTimeOriginal)
-        if not dt_original: return
-        self._date_taken = datetime.strptime(dt_original.decode(),"%Y:%m:%d %H:%M:%S")
-
-
     def save(self, *args, **kwargs):
-        # The first save commits the uploaded file and creates self.data.file
+        # The first save commits the uploaded file and places it within /media
         super().save(*args, **kwargs)
-        # Pre-set date_taken: get exif date if exif exists and save to allow db
-        # queries, and admin overrides
+        # Pre-set date_taken: get exif DateTimeOriginal if exif exists and save
+        # to allow db queries, and admin overrides (if modtime is wrong and
+        # there's no exif)
         if not self.date_taken: # Only after the first save
-            self.date_taken = self._date_taken \
-                if hasattr(self, '_date_taken') and self._date_taken \
-                   else self.mtime
+            self.date_taken = self.mtime # by default
+            img = pImage.open(self.data)
+            if img.info.get('exif'):
+                edata = piexif.load(img.info['exif'])
+                if edata.get('Exif'):
+                    if dt_original := edata['Exif'].get(piexif.ExifIFD.DateTimeOriginal):
+                        self.date_taken = datetime.strptime(dt_original.decode(),"%Y:%m:%d %H:%M:%S")
             kwargs.update({'force_insert':False, 'force_update':True})
             super().save(*args, **kwargs)
 
