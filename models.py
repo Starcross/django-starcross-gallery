@@ -20,7 +20,7 @@ class Image(models.Model):
         source='data',
         processors=[ResizeToFit(height=settings.GALLERY_THUMBNAIL_SIZE * settings.GALLERY_HDPI_FACTOR)],
         format='JPEG',
-        options={'quality': settings.GALLERY_RESIZE_QUALITY, 'keep_exif':True}
+        options={'quality': settings.GALLERY_RESIZE_QUALITY}
     )
     data_preview = ImageSpecField(
         source='data',
