@@ -10,6 +10,7 @@ from gallery import settings
 from pathlib import Path
 from datetime import datetime
 import os
+import piexif
 
 
 class Image(models.Model):
@@ -31,6 +32,40 @@ class Image(models.Model):
         options={'quality': settings.GALLERY_RESIZE_QUALITY}
     )
     date_uploaded = models.DateTimeField(auto_now_add=True)
+    date_taken = models.DateTimeField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        # The first save commits the uploaded file and places it within /media
+        super().save(*args, **kwargs)
+        # Pre-set date_taken: get exif DateTimeOriginal if exif exists and save
+        # to allow db queries, and admin overrides (if modtime is wrong and
+        # there's no exif)
+        if not self.date_taken: # Only after the first save
+            self.date_taken = self.mtime # by default
+            img = pImage.open(self.data)
+            if img.info.get('exif'):
+                edata = piexif.load(img.info['exif'])
+                if edata.get('Exif'):
+                    if dt_original := edata['Exif'].get(piexif.ExifIFD.DateTimeOriginal):
+                        self.date_taken = datetime.strptime(dt_original.decode(),"%Y:%m:%d %H:%M:%S")
+            kwargs.update({'force_insert':False, 'force_update':True})
+            super().save(*args, **kwargs)
+
+    @cached_property
+    def size_str(self):
+        if not hasattr(self, 'width'):
+            try:
+                with pImage.open(self.data.path) as img:
+                    self.width = img.width
+                    self.height = img.height
+                    img.close()
+            except (ValueError,):
+                # storage/cache seems to have not been created yet,
+                # this happens only on first admin pImage.open access,
+                # ok next time (fixme: sync)
+                self.width = 0
+                self.height = 0
+        return '%d x %d' % (self.width, self.height)
 
     @cached_property
     def slug(self):
@@ -40,7 +75,6 @@ class Image(models.Model):
     def exif(self):
         """ Retrieve exif data using PIL as a dictionary """
         exif_data = {}
-        self.data.open()
         with pImage.open(self.data) as img:
             if hasattr(img, '_getexif'):
                 info = img._getexif()
@@ -60,17 +94,6 @@ class Image(models.Model):
                                                              exif_data['ExposureTime'].denominator)
             img.close()
         return exif_data
-
-    @cached_property
-    def date_taken(self):
-        """ Use the date taken from the exif data, otherwise file modification time """
-        original_exif = self.exif.get('DateTimeOriginal')
-        if not original_exif:
-            return self.mtime
-        try:
-            return datetime.strptime(original_exif, "%Y:%m:%d %H:%M:%S")
-        except ValueError:  # Fall back to file modification time
-            return self.mtime
 
     @cached_property
     def mtime(self):
@@ -109,9 +132,10 @@ class Album(models.Model):
         on_delete=models.SET_NULL,
     )
     order = models.PositiveIntegerField(default=0, blank=False, null=False)
-
+    published = models.BooleanField(default=True)
+    
     class Meta(object):
-        ordering = ['order', '-pk']
+        ordering = ['-order', '-pk']
 
     @property
     def slug(self):
@@ -120,11 +144,11 @@ class Album(models.Model):
     @property
     def display_highlight(self):
         """ User selectable thumbnail for the album """
-        if self.highlight :
-            image = self.highlight
         # if there is no highlight but there are images in the album, use the first
-        else:
+        if not self.highlight and self.images.count():
             image = self.images.earliest('id')
+        else:
+            image = self.highlight
         if image:
             image.title = self.title  # use the album title instead of the highlight title
         return image

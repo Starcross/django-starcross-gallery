@@ -1,0 +1,12 @@
+{# -*- mode:web -*- engine:django -*- #}
+<a href="{% url 'gallery:album_detail' album.pk album.slug  %}">
+  
+  {% with image=album.display_highlight %}
+    {% if image %}
+      {% include "gallery/partials/thumbnail.html" %}
+    {% else %}
+      {% include "gallery/partials/thumbnail_empty.html" %}
+    {% endif %}
+  {% endwith %}
+  
+</a>

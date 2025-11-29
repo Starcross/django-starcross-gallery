@@ -51,7 +51,7 @@ class ImageView(GallerySettingsMixin, DetailView):
                         context['next_image'] = album_images[i + 1]
         else:
             # Look for albums this image appears in
-            context['albums'] = self.object.image_albums.all()
+            context['albums'] = self.object.image_albums.exclude(published=False)
 
         return context
 
@@ -114,3 +114,9 @@ class AlbumView(GallerySettingsMixin, DetailView):
 class AlbumList(GallerySettingsMixin, ListView):
     model = Album
     template_name = 'gallery/album_list.html'
+    def get_queryset(self):
+        if self.request.user and self.request.user.is_staff:
+            return Album.objects.all()
+        else:
+            return Album.objects.exclude(published=False)
+

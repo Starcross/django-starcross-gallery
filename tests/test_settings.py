@@ -43,3 +43,5 @@ TEMPLATES = [
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 STATIC_URL = '/static/'
+
+USE_TZ = False
