@@ -3,7 +3,7 @@ from django.utils.text import slugify
 from django.urls import reverse
 from django.utils.functional import cached_property
 from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFit
+from imagekit.processors import ResizeToFit, Transpose as KitTranspose
 from PIL import Image as pImage
 from PIL.ExifTags import TAGS
 from gallery import settings
@@ -12,23 +12,51 @@ from datetime import datetime
 import os
 
 
+class Transpose(KitTranspose):
+    """Override the default Transpose processor to call getexif instead of _getexif
+    Pending https://github.com/matthewwithanm/pilkit/pull/80/changes/c25a349c45e922b299e2eaf21e1a7eb80e9b2931"""
+
+    def process(self, img):
+        if self.AUTO in self.methods:
+            try:
+                orientation = img.getexif()[0x0112]
+                ops = self._EXIF_ORIENTATION_STEPS[orientation]
+            except (IndexError, KeyError, TypeError, AttributeError):
+                ops = []
+        else:
+            ops = self.methods
+        for method in ops:
+            img = img.transpose(method)
+        return img
+
+
 class Image(models.Model):
 
     data = models.ImageField(upload_to=settings.GALLERY_IMAGES_PATH)
     data_thumbnail = ImageSpecField(
         source='data',
-        processors=[ResizeToFit(height=settings.GALLERY_THUMBNAIL_SIZE * settings.GALLERY_HDPI_FACTOR)],
+        processors=[
+            Transpose(Transpose.AUTO),
+            ResizeToFit(
+                height=settings.GALLERY_THUMBNAIL_SIZE * settings.GALLERY_HDPI_FACTOR
+            ),
+
+        ],
         format='JPEG',
-        options={'quality': settings.GALLERY_RESIZE_QUALITY}
+        options={'quality': settings.GALLERY_RESIZE_QUALITY},
     )
     data_preview = ImageSpecField(
         source='data',
-        processors=[ResizeToFit(
-            width=settings.GALLERY_PREVIEW_SIZE * settings.GALLERY_HDPI_FACTOR,
-            height=settings.GALLERY_PREVIEW_SIZE * settings.GALLERY_HDPI_FACTOR
-        )],
+        processors=[
+            Transpose(Transpose.AUTO),
+            ResizeToFit(
+                width=settings.GALLERY_PREVIEW_SIZE * settings.GALLERY_HDPI_FACTOR,
+                height=settings.GALLERY_PREVIEW_SIZE * settings.GALLERY_HDPI_FACTOR
+            ),
+
+        ],
         format='JPEG',
-        options={'quality': settings.GALLERY_RESIZE_QUALITY}
+        options={'quality': settings.GALLERY_RESIZE_QUALITY},
     )
     date_uploaded = models.DateTimeField(auto_now_add=True)
 
@@ -49,7 +77,7 @@ class Image(models.Model):
                 for tag, value in info.items():
                     decoded = TAGS.get(tag, tag)
                     exif_data[decoded] = value
-                # Process some data for easy rendering in template
+                # Process some data for easy rendering in-template
                 exif_data['Camera'] = exif_data.get('Model', '')
                 if exif_data.get('Make', '') not in exif_data['Camera']:  # Work around for Canon
                     exif_data['Camera'] = "{0} {1}".format(exif_data['Make'].title(), exif_data['Model'])
@@ -119,7 +147,7 @@ class Album(models.Model):
 
     @property
     def display_highlight(self):
-        """ User selectable thumbnail for the album """
+        """ User-selectable thumbnail for the album """
         if self.highlight :
             image = self.highlight
         # if there is no highlight but there are images in the album, use the first
