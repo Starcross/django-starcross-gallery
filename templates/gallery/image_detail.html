@@ -7,7 +7,38 @@
 
 {% block header %}
 
-    <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{% url 'gallery:image_detail' image.pk image.slug %}">
+    <link rel="canonical" href="{{ root_url }}{% url 'gallery:image_detail' image.pk image.slug %}">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "ImageObject",
+        "contentUrl": "{{ root_url }}{{ image.data.url }}"
+        "name: "{% firstof image.exif.Title image.title %}"
+        "width": "{{ image.data.width }}"
+        "height": "{{ image.data.height }}"
+        "thumbnailUrl: "{{ root_url }}{{ image.data_thumbnail.url }}",
+        {% if image.exif.Subject %}
+          "keywords": "{{ image.exif.Subject|escapejs }}",
+        {% endif %}
+        "dateCreated": "{{ image.exif.DateTimeOriginal|escapejs }}",
+        {% if image.exif.Description %}
+          "description": "{{ image.exif.Description|escapejs }}",
+        {% endif %}
+        {% if image.exif.License %}
+          "license": "{{ image.exif.License|escapejs }}",
+        {% endif %}
+        {% if image.exif.Creator %}
+          "creator": {
+            "@type": "Person",
+            "name": "{{  image.exif.Creator|escapejs }}"
+          },
+        {% endif %}
+        {% if image.exif.copyrightNotice %}
+          "copyrightNotice": "{{ image.exif.Copyright|escapejs }}"
+        {% endif %}
+    }
+    </script>
 
     <script type="text/javascript">
         {% if previous_image %}
@@ -69,15 +100,17 @@
             </a>
             -
         {% endif %}
-        {{ image.title }}
+        <span id="image-title">{{ image.title }}</span>
     </div>
 {% endblock %}
 
 {% block content %}
 
-<a href="{{ image.data.url }}">
-    <img id="image_preview" src="{{ image.data_preview.url }}" alt="{{ image.title }}"/>
-</a>
+<figure aria-labelledby="image-title">
+    <a href="{{ image.data.url }}">
+        <img id="image_preview" src="{{ image.data_preview.url }}" alt="{% firstof image.exif.Description image.title %}"/>
+    </a>
+</figure>
 
 <div id="album_preview">
 {% if album_images %}

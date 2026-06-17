@@ -10,10 +10,10 @@ from gallery import settings
 
 
 class GallerySettingsMixin(object):
-    """ Apply Gallery's Settings to a view """
+    """Make gallery settings available in a view"""
 
     def get_context_data(self, **kwargs):
-        """ Make settings available the template """
+        """ Make settings available to the template """
         context = super(GallerySettingsMixin, self).get_context_data(**kwargs)
         context['logo_path'] = settings.GALLERY_LOGO_PATH
         context['gallery_title'] = settings.GALLERY_TITLE
@@ -52,6 +52,8 @@ class ImageView(GallerySettingsMixin, DetailView):
         else:
             # Look for albums this image appears in
             context['albums'] = self.object.image_albums.all()
+
+        context['root_url'] = f"{self.request.scheme}://{self.request.get_host()}"
 
         return context
 

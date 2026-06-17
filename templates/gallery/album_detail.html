@@ -18,18 +18,14 @@
 
 {% block content %}
 
-<!--<h2>{{ album.title }}</h2>-->
-
 {% include "gallery/partials/image_upload_form.html" %}
 
-<div id="image_container">
+<nav id="image_container">
 
     {% for image in images %}
 
         <a href="{% url 'gallery:album_image_detail' album.pk image.pk image.slug %}#image_{{ image.pk }}">
-
             {% include "gallery/partials/thumbnail.html" %}
-
         </a>
 
     {% endfor %}
@@ -43,6 +39,6 @@
 
     {% endif %}
 
-</div>
+</nav>
 
 {% endblock %}

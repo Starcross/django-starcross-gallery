@@ -99,3 +99,9 @@
 .alert ul li {
     list-style: none;
 }
+
+/* Strip default styles */
+figure {
+    margin: 0;
+    padding: 0;
+}

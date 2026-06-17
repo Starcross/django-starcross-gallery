@@ -5,7 +5,7 @@ from django.utils.functional import cached_property
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit, Transpose as KitTranspose
 from PIL import Image as pImage
-from PIL.ExifTags import TAGS
+from PIL.ExifTags import TAGS, Base
 from gallery import settings
 from pathlib import Path
 from datetime import datetime
@@ -66,27 +66,54 @@ class Image(models.Model):
 
     @cached_property
     def exif(self):
-        """ Retrieve exif data using PIL as a dictionary """
+        """ Retrieve exif data using PIL and build a dictionary"""
         exif_data = {}
         self.data.open()
         with pImage.open(self.data) as img:
-            if hasattr(img, '_getexif'):
-                info = img._getexif()
-                if not info:
-                    return {}
-                for tag, value in info.items():
-                    decoded = TAGS.get(tag, tag)
-                    exif_data[decoded] = value
-                # Process some data for easy rendering in-template
-                exif_data['Camera'] = exif_data.get('Model', '')
-                if exif_data.get('Make', '') not in exif_data['Camera']:  # Work around for Canon
-                    exif_data['Camera'] = "{0} {1}".format(exif_data['Make'].title(), exif_data['Model'])
-                if 'FNumber' in exif_data:
-                    exif_data['Aperture'] = str(exif_data['FNumber'].numerator / exif_data['FNumber'].denominator)
-                if 'ExposureTime' in exif_data:
-                    exif_data['Exposure'] = "{0}/{1}".format(exif_data['ExposureTime'].numerator,
-                                                             exif_data['ExposureTime'].denominator)
-            img.close()
+            # Extract standard EXIF data (including IFD0 and Exif Sub-IFD)
+            if hasattr(img, 'getexif'):
+                exif_obj = img.getexif()
+                if exif_obj:
+                    info = dict(exif_obj)
+                    info.update(exif_obj.get_ifd(Base.ExifOffset))
+
+                    for tag, value in info.items():
+                        decoded = TAGS.get(tag, tag)
+                        exif_data[decoded] = value
+
+            # Extract XMP metadata (for Copyright, Title, Description, etc. for use in LD-JSON)
+            if hasattr(img, 'getxmp'):
+                xmp_data = img.getxmp()
+                if xmp_data and 'xmpmeta' in xmp_data:
+                    try:
+                        # Navigate through the standard XMP structure: xmpmeta -> RDF -> Description
+                        rdf = xmp_data['xmpmeta']['RDF']['Description']
+                        if 'WebStatement' in rdf:
+                            exif_data["License"] = rdf['WebStatement']
+                        if 'rights' in rdf:
+                            exif_data['Copyright'] = rdf['rights']['Alt']['li']['text']
+                        if 'creator' in rdf:
+                            exif_data['Creator'] = rdf['creator']['Seq']['li']
+                        if 'title' in rdf:
+                            exif_data['Title'] = rdf['title']['Alt']['li']['text']
+                        if 'description' in rdf:
+                            exif_data['Description'] = rdf['description']['Alt']['li']['text']
+                        if 'subject' in rdf:
+                            exif_data["Subject"] = rdf['subject']['Bag']['li']
+                    except (KeyError, TypeError):
+                        # Fail silently if the expected XMP structure isn't as assumed
+                        pass
+
+            # Process camera data for easy rendering in-template
+            exif_data['Camera'] = exif_data.get('Model', '')
+            if exif_data.get('Make', '') not in exif_data['Camera']:  # Work around for Canon
+                exif_data['Camera'] = "{0} {1}".format(exif_data['Make'].title(), exif_data['Model'])
+            if 'FNumber' in exif_data:
+                exif_data['Aperture'] = str(exif_data['FNumber'].numerator / exif_data['FNumber'].denominator)
+            if 'ExposureTime' in exif_data:
+                exif_data['Exposure'] = "{0}/{1}".format(exif_data['ExposureTime'].numerator,
+                                                         exif_data['ExposureTime'].denominator)
+        img.close()
         return exif_data
 
     @cached_property
