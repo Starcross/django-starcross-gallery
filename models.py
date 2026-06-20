@@ -1,3 +1,5 @@
+from functools import reduce
+
 from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
@@ -68,7 +70,6 @@ class Image(models.Model):
     def exif(self):
         """ Retrieve exif data using PIL and build a dictionary"""
         exif_data = {}
-        self.data.open()
         with pImage.open(self.data) as img:
             # Extract standard EXIF data (including IFD0 and Exif Sub-IFD)
             if hasattr(img, 'getexif'):
@@ -88,9 +89,12 @@ class Image(models.Model):
                     try:
                         # Navigate through the standard XMP structure: xmpmeta -> RDF -> Description
                         rdf = xmp_data['xmpmeta']['RDF']['Description']
+                        # There may be multiple description entries which would return a list
+                        if type(rdf) is list:
+                            rdf = reduce(lambda acc, curr: acc | curr, rdf)
                         if 'WebStatement' in rdf:
                             exif_data["License"] = rdf['WebStatement']
-                        if 'rights' in rdf:
+                        if 'rights' in rdf and not 'Copyright' in exif_data:
                             exif_data['Copyright'] = rdf['rights']['Alt']['li']['text']
                         if 'creator' in rdf:
                             exif_data['Creator'] = rdf['creator']['Seq']['li']
@@ -113,7 +117,7 @@ class Image(models.Model):
             if 'ExposureTime' in exif_data:
                 exif_data['Exposure'] = "{0}/{1}".format(exif_data['ExposureTime'].numerator,
                                                          exif_data['ExposureTime'].denominator)
-        img.close()
+
         return exif_data
 
     @cached_property

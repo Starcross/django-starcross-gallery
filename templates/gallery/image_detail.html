@@ -21,7 +21,9 @@
         {% if image.exif.Subject %}
           "keywords": "{{ image.exif.Subject|escapejs }}",
         {% endif %}
-        "dateCreated": "{{ image.exif.DateTimeOriginal|escapejs }}",
+        {% if image.exif.dateTimeOriginal %}
+            "dateCreated": "{{ image.exif.DateTimeOriginal|escapejs }}",
+        {% endif %}
         {% if image.exif.Description %}
           "description": "{{ image.exif.Description|escapejs }}",
         {% endif %}
@@ -34,8 +36,8 @@
             "name": "{{  image.exif.Creator|escapejs }}"
           },
         {% endif %}
-        {% if image.exif.copyrightNotice %}
-          "copyrightNotice": "{{ image.exif.Copyright|escapejs }}"
+        {% if image.exif.Copyright %}
+          "copyrightNotice": "{{ image.exif.Copyright|escapejs }}",
         {% endif %}
     }
     </script>
