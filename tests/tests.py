@@ -1,15 +1,15 @@
-from django.test import TestCase
-from django.urls import reverse
-from django.conf import settings
-from django.utils.datastructures import MultiValueDict
-from django.contrib.auth.models import User
-from django.core.files.uploadedfile import SimpleUploadedFile
-
 import os
 from datetime import datetime
+from unittest.mock import patch
+
+from django.conf import settings
+from django.contrib.auth.models import User
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.test import TestCase, override_settings
+from django.urls import reverse
+from PIL import Image as pImage
 
 from gallery.models import Album, Image
-from gallery.forms import ImageCreateForm
 
 
 class ImageTests(TestCase):
@@ -157,3 +157,20 @@ class ImageTests(TestCase):
             "Unable to add invalid image",
             msg_prefix="Error testing invalid image data"
         )
+
+
+    @override_settings(CACHES={'default': {'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'}})
+    @patch('gallery.models.pImage.open', wraps=pImage.open)
+    def test_property_caching(self, open_mock):
+        from django.core.cache import cache
+        cache.clear()
+
+        """ Test image property caching """
+        exif = self.image.exif
+        self.assertEqual(open_mock.call_count, 1)
+        exif = self.image.exif
+        self.assertEqual(open_mock.call_count, 1, "Exif data should only be retrieved once")
+        self.image.data = self.image_filenames[1]
+        self.image.save()
+        exif = self.image.exif
+        self.assertEqual(open_mock.call_count, 2, "Exif data should be retrieved again after image data change")

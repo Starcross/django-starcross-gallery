@@ -1,17 +1,19 @@
+from datetime import datetime
 from functools import reduce
+import os
+from pathlib import Path
 
 from django.db import models
-from django.utils.text import slugify
+from django.core.cache import cache
 from django.urls import reverse
-from django.utils.functional import cached_property
+from django.utils.text import slugify
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit, Transpose as KitTranspose
 from PIL import Image as pImage
 from PIL.ExifTags import TAGS, Base
+
 from gallery import settings
-from pathlib import Path
-from datetime import datetime
-import os
+from gallery.utils import cache_property
 
 
 class Transpose(KitTranspose):
@@ -62,11 +64,11 @@ class Image(models.Model):
     )
     date_uploaded = models.DateTimeField(auto_now_add=True)
 
-    @cached_property
+    @property
     def slug(self):
         return slugify(self.title, allow_unicode=True)
 
-    @cached_property
+    @cache_property()
     def exif(self):
         """ Retrieve exif data using PIL and build a dictionary"""
         exif_data = {}
@@ -120,7 +122,7 @@ class Image(models.Model):
 
         return exif_data
 
-    @cached_property
+    @property
     def date_taken(self):
         """ Use the date taken from the exif data, otherwise file modification time """
         original_exif = self.exif.get('DateTimeOriginal')
@@ -131,7 +133,7 @@ class Image(models.Model):
         except ValueError:  # Fall back to file modification time
             return self.mtime
 
-    @cached_property
+    @cache_property()
     def mtime(self):
         return datetime.fromtimestamp(os.path.getmtime(self.data.path))
 
@@ -156,6 +158,10 @@ class Image(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, **kwargs):
+        cache.delete(f"gallery.Image_{self.pk}_exif")
+        super().save(**kwargs)
 
 
 class Album(models.Model):
