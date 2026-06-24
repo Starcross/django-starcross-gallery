@@ -14,7 +14,7 @@
         "@context": "https://schema.org/",
         "@type": "ImageObject",
         "contentUrl": "{{ root_url }}{{ image.data.url }}"
-        "name: "{% firstof image.exif.Title image.title %}"
+        "name: "{% filter escapejs %}{% firstof image.exif.Title image.title %}{% endfilter %}"
         "width": "{{ image.data.width }}"
         "height": "{{ image.data.height }}"
         "thumbnailUrl: "{{ root_url }}{{ image.data_thumbnail.url }}",

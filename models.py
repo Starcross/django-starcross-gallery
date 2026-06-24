@@ -72,7 +72,7 @@ class Image(models.Model):
     def exif(self):
         """ Retrieve exif data using PIL and build a dictionary"""
         exif_data = {}
-        with pImage.open(self.data) as img:
+        with pImage.open(self.data.path) as img:
             # Extract standard EXIF data (including IFD0 and Exif Sub-IFD)
             if hasattr(img, 'getexif'):
                 exif_obj = img.getexif()
