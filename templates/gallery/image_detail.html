@@ -11,13 +11,11 @@
 
     <script type="application/ld+json">
     {
-        "@context": "https://schema.org/",
-        "@type": "ImageObject",
-        "contentUrl": "{{ root_url }}{{ image.data.url }}"
-        "name: "{% filter escapejs %}{% firstof image.exif.Title image.title %}{% endfilter %}"
-        "width": "{{ image.data.width }}"
-        "height": "{{ image.data.height }}"
-        "thumbnailUrl: "{{ root_url }}{{ image.data_thumbnail.url }}",
+        "contentUrl": "{{ root_url }}{{ image.data.url }}",
+        "name": "{% filter escapejs %}{% firstof image.exif.Title image.title %}{% endfilter %}",
+        "width": "{{ image.data.width }}",
+        "height": "{{ image.data.height }}",
+        "thumbnailUrl": "{{ root_url }}{{ image.data_thumbnail.url }}",
         {% if image.exif.Subject %}
           "keywords": "{{ image.exif.Subject|escapejs }}",
         {% endif %}
@@ -39,6 +37,8 @@
         {% if image.exif.Copyright %}
           "copyrightNotice": "{{ image.exif.Copyright|escapejs }}",
         {% endif %}
+        "@context": "https://schema.org/",
+        "@type": "ImageObject"
     }
     </script>
 
