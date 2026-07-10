@@ -16,6 +16,7 @@
         "width": "{{ image.data.width }}",
         "height": "{{ image.data.height }}",
         "thumbnailUrl": "{{ root_url }}{{ image.data_thumbnail.url }}",
+        "acquireLicensePage": "{{ root_url }}{% url 'gallery:image_detail' image.pk image.slug %}",
         {% if image.exif.Subject %}
           "keywords": "{{ image.exif.Subject|escapejs }}",
         {% endif %}
@@ -31,8 +32,9 @@
         {% if image.exif.Creator %}
           "creator": {
             "@type": "Person",
-            "name": "{{  image.exif.Creator|escapejs }}"
+            "name": "{{ image.exif.Creator|escapejs }}"
           },
+          "creditText": "{{ image.exif.Creator|escapejs }} / {{ request.get_host }}",
         {% endif %}
         {% if image.exif.Copyright %}
           "copyrightNotice": "{{ image.exif.Copyright|escapejs }}",
