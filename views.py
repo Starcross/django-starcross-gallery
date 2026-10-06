@@ -14,7 +14,7 @@ class GallerySettingsMixin(object):
 
     def get_context_data(self, **kwargs):
         """ Make settings available to the template """
-        context = super(GallerySettingsMixin, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['logo_path'] = settings.GALLERY_LOGO_PATH
         context['gallery_title'] = settings.GALLERY_TITLE
         context['hdpi_factor'] = settings.GALLERY_HDPI_FACTOR
@@ -30,7 +30,7 @@ class ImageView(GallerySettingsMixin, DetailView):
     model = Image
 
     def get_context_data(self, **kwargs):
-        context = super(ImageView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['album_images'] = []
         context['apk'] = self.kwargs.get('apk')
 
@@ -63,7 +63,7 @@ class ImageList(GallerySettingsMixin, ListView):
 
     def get_queryset(self):
         # Order by newest first
-        return super(ImageList, self).get_queryset().order_by('-pk')
+        return super().get_queryset().order_by('-pk')
 
 
 class ImageCreate(GallerySettingsMixin, LoginRequiredMixin, FormView):
@@ -103,11 +103,11 @@ class AlbumView(GallerySettingsMixin, DetailView):
     model = Album
 
     def get_queryset(self):
-        album = super(AlbumView, self).get_queryset()
+        album = super().get_queryset()
         return album
 
     def get_context_data(self, **kwargs):
-        context = super(AlbumView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         images = context['album'].images.all()
         context['images'] = sorted(images, key=lambda i: i.date_taken)
         return context

@@ -175,7 +175,7 @@ class Album(models.Model):
     )
     order = models.PositiveIntegerField(default=0, blank=False, null=False)
 
-    class Meta(object):
+    class Meta:
         ordering = ['order', '-pk']
 
     @property
